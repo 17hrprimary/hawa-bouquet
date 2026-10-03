@@ -563,3 +563,13 @@ const PROMO_NATARU = [
     foto: "assets/nataru/nataru-04.jpg"
   }
 ];
+
+// =============================================================
+//  VIDEO REVIEW — file di assets/videos/ (mp4 + poster jpg)
+// =============================================================
+const VIDEO_REVIEW = [
+  { judul: "Review Parcel Snack Tabung Ramadan", video: "assets/videos/review-01.mp4", poster: "assets/videos/review-01.jpg" },
+  { judul: "Review Bucket Uang & Bunga Kelahiran", video: "assets/videos/review-02.mp4", poster: "assets/videos/review-02.jpg" },
+  { judul: "Review Buket dari Hijab", video: "assets/videos/review-03.mp4", poster: "assets/videos/review-03.jpg" },
+  { judul: "Review Parcel Lebaran 100K", video: "assets/videos/review-04.mp4", poster: "assets/videos/review-04.jpg" }
+];

@@ -287,14 +287,14 @@ b,strong{font-weight:500}
    Fixed layer painted above section backgrounds but below all text/content,
    so it stays visible on both light and dark sections without hurting legibility. */
 body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:url("assets/bg/hawa-cutout.webp?v=20261003140848") 38% bottom/auto 96vh no-repeat;opacity:.10}
+  background:url("assets/bg/hawa-cutout.webp?v=20261003142242") 38% bottom/auto 96vh no-repeat;opacity:.10}
 @media (max-width:800px){ body::before{background-position:center bottom;background-size:auto 78vh} }
 .hero>*,.occasions>*,.section>*,.footer>*,.pp>*{position:relative;z-index:2}
 .catalog>.anchor{position:absolute;z-index:0}
 
 /* Nav: no wrapping on ~1000px desktop-mode screens */
 .brand{white-space:nowrap}
-@media (max-width:1180px) and (min-width:641px){
+@media (max-width:1440px) and (min-width:641px){
   .nav{padding:1rem 4vw}
   .nav-links{gap:1.1rem;font-size:.68rem;letter-spacing:.1em}
   .nav-links a{white-space:nowrap}
@@ -304,3 +304,28 @@ body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
 @media (max-width:900px) and (min-width:641px){ .nav-links a:not(.btn):not(.nav-promo){display:none} }
 /* kartu katalog tanpa harga/estimasi: tombol rata bawah */
 .card-body>.card-actions{margin-top:auto;border-top:1px solid var(--lav-soft);padding-top:1rem}
+/* ---------- Video Review ---------- */
+.video-panel[hidden],.grid[hidden]{display:none}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.4rem}
+.vcard{margin:0;background:#fff;box-shadow:0 18px 40px rgba(5,0,10,.35);display:flex;flex-direction:column}
+.vbox{aspect-ratio:9/16;background:#1c0d27;overflow:hidden}
+.vbox video{width:100%;height:100%;object-fit:cover;display:block;background:#1c0d27}
+.vcard figcaption{padding:1rem 1.1rem 1.2rem;font-family:"Cormorant Garamond",serif;font-size:1.25rem;line-height:1.25;color:var(--deep)}
+.vno{display:block;font-family:Jost,sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--plum);margin-bottom:.35rem}
+.video-more{text-align:center;margin-top:2.4rem;padding:2rem 1.2rem;border:1px solid rgba(200,178,138,.45);background:rgba(255,255,255,.04)}
+.video-more p{color:#d9cfe2;margin:0 0 1.1rem;font-size:.95rem}
+.btn-tiktok{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;background:var(--champ);color:var(--deep);border:1px solid var(--champ);padding:1rem 2rem;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;text-decoration:none;max-width:100%}
+.btn-tiktok svg{width:20px;height:20px;flex:0 0 auto}
+.btn-tiktok:hover{background:#fff;border-color:#fff}
+@media (max-width:640px){ .video-grid{grid-template-columns:1fr 1fr;gap:.8rem} .vcard figcaption{font-size:1.02rem;padding:.7rem .75rem .85rem} .vno{font-size:.58rem;letter-spacing:.16em} .btn-tiktok{width:100%;padding:.95rem 1rem;font-size:.74rem;letter-spacing:.1em} }
+/* Nav: muat 1 baris setelah tambah menu Video Review */
+@media (max-width:1100px) and (min-width:641px){
+  .nav{padding:1rem 3vw}
+  .nav-links{gap:.85rem;font-size:.64rem;letter-spacing:.07em}
+  .brand{font-size:1.25rem}
+}
+@media (max-width:760px) and (min-width:641px){
+  .nav-links{gap:.6rem;font-size:.6rem;letter-spacing:.04em}
+  .nav-links .btn-sm{padding:.45rem .6rem}
+  .brand{font-size:1.1rem}
+}

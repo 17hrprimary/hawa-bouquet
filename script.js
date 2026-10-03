@@ -121,8 +121,10 @@
     TABS.push({ key: "nataru", list: "nataru", cat: null, label: "Promo Natal & Tahun Baru", group: true, promo: true, star: true, eyebrow: "Edisi Spesial" });
     nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Promo Natal & Tahun Baru" }));
   }
+  const VIDEOS = typeof VIDEO_REVIEW !== "undefined" ? VIDEO_REVIEW : [];
+  if (VIDEOS.length) TABS.push({ key: "video", list: "video", cat: null, label: "Video Review", group: true, promo: true, icon: "▶", eyebrow: "Testimoni" });
   const listOf = name => name === "promo" ? PROMO : name === "nataru" ? NATARU : PRODUCTS;
-  const itemsOf = t => listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
+  const itemsOf = t => t.list === "video" ? [] : listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
   const catList = $("#catList"), grid = $("#catGrid"), empty = $("#catEmpty");
   let activeTab = null, visible = [], renderSeq = 0;
 
@@ -130,12 +132,13 @@
     const b = document.createElement("button");
     b.type = "button"; b.setAttribute("role", "tab"); b.dataset.key = t.key;
     b.className = "cat-tab" + (t.group ? " cat-group" : " cat-sub") + (t.promo ? " is-promo" : "");
-    b.innerHTML = (t.group && t.promo ? '<span class="cat-moon">' + (t.star ? "✦" : "☾") + "</span>" : "") + '<span class="cat-label">' + t.label + '</span><span class="cat-badge" data-badge></span>';
+    b.innerHTML = (t.group && t.promo ? '<span class="cat-moon">' + (t.icon || (t.star ? "✦" : "☾")) + "</span>" : "") + '<span class="cat-label">' + t.label + '</span><span class="cat-badge" data-badge></span>';
     b.onclick = () => { selectTab(t.key); };
     catList.appendChild(b);
   });
   // Badges: count of items with photos; "Segera" if none yet
   TABS.forEach(t => {
+    if (t.list === "video") { const el = catList.querySelector('[data-key="video"] [data-badge]'); el.textContent = VIDEOS.length; return; }
     Promise.all(itemsOf(t).map(hasPhoto)).then(r => {
       const n = r.filter(Boolean).length;
       const el = catList.querySelector('[data-key="' + t.key + '"] [data-badge]');
@@ -185,6 +188,10 @@
     $("#katalog").classList.toggle("nataru-mode", t.list === "nataru");
     const seq = ++renderSeq, items = itemsOf(t);
     grid.innerHTML = ""; empty.hidden = true; $("#catCount").textContent = "";
+    const vp = $("#videoPanel"), isVid = t.list === "video";
+    vp.hidden = !isVid; grid.hidden = isVid;
+    if (!isVid) vp.querySelectorAll("video").forEach(v => v.pause());
+    if (isVid) { renderVideos(); $("#catCount").textContent = VIDEOS.length + " video"; return; }
     Promise.all(items.map(hasPhoto)).then(ok => {
       if (seq !== renderSeq) return;
       // Promo items always show; main items only when their photo exists
@@ -192,6 +199,18 @@
       visible.forEach(p => grid.appendChild(cardFor(p)));
       empty.hidden = visible.length > 0;
       $("#catCount").textContent = visible.length ? visible.length + " produk" : "";
+    });
+  }
+  function renderVideos() {
+    const g = $("#videoGrid");
+    if (g.childElementCount) return;
+    VIDEOS.forEach((v, i) => {
+      const f = document.createElement("figure"); f.className = "vcard";
+      f.innerHTML = '<div class="vbox"><video controls playsinline preload="metadata" poster="' + v.poster + '" src="' + v.video + '" aria-label="' + v.judul + '"></video></div>' +
+        '<figcaption><span class="vno">Video ' + String(i + 1).padStart(2, "0") + "</span>" + v.judul + "</figcaption>";
+      const el = f.querySelector("video");
+      el.addEventListener("play", () => g.querySelectorAll("video").forEach(o => { if (o !== el) o.pause(); }));
+      g.appendChild(f);
     });
   }
   selectTab(PROMO.length ? "promo" : "main");
@@ -249,7 +268,7 @@
     let slug = null;
     if (/^(produk|ramadan|nataru)-\d+$/.test(h)) slug = h;
     else if (q) slug = /^(ramadan|nataru)-\d+$/i.test(q) ? q.toLowerCase() : /^r\d+$/i.test(q) ? "ramadan-" + q.slice(1).padStart(2, "0") : /^n\d+$/i.test(q) ? "nataru-" + q.slice(1).padStart(2, "0") : "produk-" + String(q).padStart(2, "0");
-    const listHash = { koleksi: "main", "promo-ramadan": "promo", "promo-nataru": "nataru" };
+    const listHash = { koleksi: "main", "promo-ramadan": "promo", "promo-nataru": "nataru", "video-review": "video" };
     if (listHash[h]) { if (modal.classList.contains("open")) { modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; cur = null; } selectTab(listHash[h]); return; }
     if (slug) {
       const p = ALL.find(x => x._slug === slug);
