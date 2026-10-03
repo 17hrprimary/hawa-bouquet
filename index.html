@@ -42,7 +42,7 @@
     <ul class="hero-badges">
       <li>Custom sesuai request</li>
       <li>Kartu ucapan gratis</li>
-      <li>Bisa diantar</li>
+      <li>Diantar atau ambil sendiri</li>
     </ul>
   </div>
   <div class="hero-visual" id="heroVisual"></div>
@@ -89,7 +89,7 @@
     <li><span class="step-no">1</span><h3>Pilih Produk</h3><p>Pilih bucket favoritmu dari koleksi, catat nomor produknya.</p></li>
     <li><span class="step-no">2</span><h3>Chat WhatsApp</h3><p>Klik tombol "Pesan via WhatsApp" — pesan otomatis berisi nama produk.</p></li>
     <li><span class="step-no">3</span><h3>Konfirmasi &amp; DP</h3><p>Diskusikan warna, kartu ucapan, dan tanggal. Lakukan pembayaran/DP.</p></li>
-    <li><span class="step-no">4</span><h3>Dibuat &amp; Dikirim</h3><p>Bucket dibuat sesuai estimasi waktu pembuatan, lalu diambil atau diantar.</p></li>
+    <li><span class="step-no">4</span><h3>Dibuat &amp; Dikirim</h3><p>Bucket dibuat sesuai estimasi waktu pembuatan, lalu diantar admin atau ambil sendiri.</p></li>
   </ol>
   <p class="note">Pesan minimal sesuai <strong>estimasi pembuatan</strong> tiap produk sebelum tanggal acara.</p>
 </section>
@@ -101,10 +101,10 @@
       <h2>Info Pemesanan</h2>
       <ul class="info-list">
         <li><b>WhatsApp</b> <a data-shop="whatsappDisplay" class="wa-link wa-num" target="_blank" rel="noopener" href="https://wa.me/6283831131080">0838-3113-1080</a></li>
-        <li><b>Instagram</b> <span data-shop="instagram">@namatoko</span></li>
+        <li><b>TikTok</b> <a class="tt-link" data-tiktok href="https://www.tiktok.com/@hawa_bouquet" target="_blank" rel="noopener"><svg class="ico-tt" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 0 0-.8-.1 5.7 5.7 0 1 0 5.7 5.7V9a7.4 7.4 0 0 0 4.3 1.4V7.3a4.3 4.3 0 0 1-3.2-1.5z"/></svg><span data-shop="tiktok">@hawa_bouquet</span></a></li>
         <li><b>Lokasi</b> <span data-shop="alamat">Alamat / kota toko</span></li>
-        <li><b>Jam</b> <span data-shop="jamBuka">Jam buka: xx.00 – xx.00</span></li>
-        <li><b>Pengiriman</b> <span data-shop="area">Area pengiriman: (isi area)</span></li>
+        <li data-shop-line="jamBuka"><b>Jam buka</b> <span>Selama admin merespons chat</span></li>
+        <li data-shop-line="area"><b>Pengiriman</b> <span>Diantar admin atau ambil sendiri</span></li>
       </ul>
       <p class="muted small">Harga dapat berubah tergantung request warna, ukuran, dan isi tambahan.</p>
     </div>
@@ -120,6 +120,10 @@
 
 <footer class="footer">
   <p class="brand-foot"><span data-shop="nama">Hawa Bouquet</span></p>
+  <div class="foot-social">
+    <a href="#" class="wa-link" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg><span data-shop="whatsappDisplay">0838-3113-1080</span></a>
+    <a data-tiktok href="https://www.tiktok.com/@hawa_bouquet" target="_blank" rel="noopener" aria-label="TikTok Hawa_Bouquet"><svg class="ico-tt" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 0 0-.8-.1 5.7 5.7 0 1 0 5.7 5.7V9a7.4 7.4 0 0 0 4.3 1.4V7.3a4.3 4.3 0 0 1-3.2-1.5z"/></svg><span data-shop="tiktok">@hawa_bouquet</span></a>
+  </div>
   <p class="small">© <span id="year"></span> <span data-shop="nama">Hawa Bouquet</span> · Bucket Gift &amp; Hampers</p>
 </footer>
 
@@ -137,6 +141,7 @@
       <p class="eta-pill" id="mEstimasi"></p>
       <p id="mDeskripsi"></p>
       <p class="muted" id="mUkuran"></p>
+      <p class="muted small" id="mKirim"></p>
       <h4>Isi paket:</h4>
       <ul id="mIsi" class="isi-list"></ul>
       <div class="share-row">

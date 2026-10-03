@@ -16,6 +16,14 @@
   document.querySelectorAll("[data-shop]").forEach(el => { const v = shopVals[el.dataset.shop]; if (v) el.textContent = v; });
   document.querySelectorAll(".wa-link").forEach(a => a.href = waLink("Halo " + SHOP.nama + ", saya mau tanya/pesan bucket gift."));
   $("#year").textContent = new Date().getFullYear();
+  // "Label: nilai" -> <b>Label</b> <span>nilai</span>
+  document.querySelectorAll("[data-shop-line]").forEach(li => {
+    const v = SHOP[li.dataset.shopLine]; if (!v) return;
+    const i = v.indexOf(":"); const lab = i > 0 ? v.slice(0, i) : "", val = i > 0 ? v.slice(i + 1).trim() : v;
+    if (lab) li.querySelector("b").textContent = lab;
+    li.querySelector("span").textContent = val.charAt(0).toUpperCase() + val.slice(1);
+  });
+  document.querySelectorAll("[data-tiktok]").forEach(a => { if (SHOP.tiktokUrl) a.href = SHOP.tiktokUrl; });
 
   // ---------- Lists: main collection + Promo Ramadan ----------
   const PROMO = typeof PROMO_RAMADAN !== "undefined" ? PROMO_RAMADAN : [];
@@ -205,6 +213,7 @@
     $("#mEstimasi").textContent = "Estimasi pembuatan: " + p.estimasi;
     $("#mDeskripsi").textContent = p.deskripsi || "";
     $("#mUkuran").textContent = p.ukuran || "";
+    $("#mKirim").textContent = SHOP.area || "";
     $("#mIsi").innerHTML = (p.isi || []).map(x => "<li>" + x + "</li>").join("");
     $("#mOrder").href = orderLink(p);
     $("#mCopy").onclick = () => copyLink(p);

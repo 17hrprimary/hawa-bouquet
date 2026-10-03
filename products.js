@@ -10,11 +10,13 @@ const SHOP = {
   tagline: "Bucket gift & hampers penuh cinta untuk setiap momen spesial",
   whatsapp: "6283831131080",          // format wa.me: 62 + nomor tanpa 0 di depan
   whatsappDisplay: "0838-3113-1080",   // nomor yang ditampilkan di info kontak
-  instagram: "@namatoko",
+  tiktok: "@hawa_bouquet",            // username TikTok
+  tiktokName: "Hawa_Bouquet",         // nama tampilan TikTok
+  tiktokUrl: "https://www.tiktok.com/@hawa_bouquet",
   alamat: "Alamat / kota toko",
-  jamBuka: "Jam buka: xx.00 – xx.00",
-  area: "Area pengiriman: (isi area)",
-  siteUrl: "https://17hrprimary.github.io/hawa-bouquet/"                        // isi setelah online, mis. "https://namatoko.com/" -> link share memakai p/NN.html (preview foto di WA)
+  jamBuka: "Jam buka: Selama admin merespons chat",
+  area: "Pengiriman: diantar admin atau ambil sendiri",
+  siteUrl: "https://17hrprimary.github.io/hawa-bouquet/"                        // isi setelah online, mis. "https://hawabouquet.com/" -> link share memakai p/NN.html (preview foto di WA)
 };
 
 const KATEGORI = ["Semua", "Bucket Bunga", "Bucket Snack", "Bucket Uang", "Parcel / Hampers", "Bucket Boneka"];
