@@ -13,7 +13,7 @@ const SHOP = {
   tiktok: "@hawa_bouquet",            // username TikTok
   tiktokName: "Hawa_Bouquet",         // nama tampilan TikTok
   tiktokUrl: "https://www.tiktok.com/@hawa_bouquet",
-  alamat: "Alamat / kota toko",
+  alamat: "Alamat toko: Silakan hubungi admin",
   jamBuka: "Jam buka: Selama admin merespons chat",
   area: "Pengiriman: diantar admin atau ambil sendiri",
   siteUrl: "https://17hrprimary.github.io/hawa-bouquet/"                        // isi setelah online, mis. "https://hawabouquet.com/" -> link share memakai p/NN.html (preview foto di WA)
