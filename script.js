@@ -206,7 +206,7 @@
     if (g.childElementCount) return;
     VIDEOS.forEach((v, i) => {
       const f = document.createElement("figure"); f.className = "vcard";
-      f.innerHTML = '<div class="vbox"><video controls playsinline preload="metadata" poster="' + v.poster + '" src="' + v.video + '" aria-label="' + v.judul + '"></video></div>' +
+      f.innerHTML = '<div class="vbox"><video controls playsinline preload="none" poster="' + v.poster + '" src="' + v.video + '" aria-label="' + v.judul + '"></video></div>' +
         '<figcaption><span class="vno">Video ' + String(i + 1).padStart(2, "0") + "</span>" + v.judul + "</figcaption>";
       const el = f.querySelector("video");
       el.addEventListener("play", () => g.querySelectorAll("video").forEach(o => { if (o !== el) o.pause(); }));
@@ -278,6 +278,8 @@
     else if (modal.classList.contains("open")) closeModal();
   }
   window.addEventListener("hashchange", route);
+  // First load always opens photos: Video Review only opens after its tab/menu is clicked
+  if (location.hash === "#video-review") history.replaceState(null, "", location.pathname + location.search);
   route();
 
   // Mobile nav
