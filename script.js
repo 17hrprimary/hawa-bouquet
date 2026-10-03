@@ -123,8 +123,10 @@
   }
   const VIDEOS = typeof VIDEO_REVIEW !== "undefined" ? VIDEO_REVIEW : [];
   if (VIDEOS.length) TABS.push({ key: "video", list: "video", cat: null, label: "Video Review", group: true, promo: true, icon: "▶", eyebrow: "Testimoni" });
+  const TESTI = typeof TESTIMONI !== "undefined" ? TESTIMONI : [];
+  if (TESTI.length) TABS.push({ key: "testi", list: "testi", cat: null, label: "Testimoni", title: "Kata Pelanggan Hawa Bouquet", group: true, promo: true, icon: "♡", eyebrow: "Testimoni" });
   const listOf = name => name === "promo" ? PROMO : name === "nataru" ? NATARU : PRODUCTS;
-  const itemsOf = t => t.list === "video" ? [] : listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
+  const itemsOf = t => (t.list === "video" || t.list === "testi") ? [] : listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
   const catList = $("#catList"), grid = $("#catGrid"), empty = $("#catEmpty");
   let activeTab = null, visible = [], renderSeq = 0;
 
@@ -138,6 +140,7 @@
   });
   // Badges: count of items with photos; "Segera" if none yet
   TABS.forEach(t => {
+    if (t.list === "testi") { catList.querySelector('[data-key="testi"] [data-badge]').textContent = TESTI.length; return; }
     if (t.list === "video") { const el = catList.querySelector('[data-key="video"] [data-badge]'); el.textContent = VIDEOS.length; return; }
     Promise.all(itemsOf(t).map(hasPhoto)).then(r => {
       const n = r.filter(Boolean).length;
@@ -183,13 +186,15 @@
     center(); requestAnimationFrame(center); setTimeout(center, 400);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(center);
     $("#catEyebrow").textContent = t.eyebrow;
-    $("#catTitle").textContent = t.group ? t.label : t.label;
+    $("#catTitle").textContent = t.title || t.label;
     $("#katalog").classList.toggle("promo-mode", t.list !== "main");
     $("#katalog").classList.toggle("nataru-mode", t.list === "nataru");
     const seq = ++renderSeq, items = itemsOf(t);
     grid.innerHTML = ""; empty.hidden = true; $("#catCount").textContent = "";
     const vp = $("#videoPanel"), isVid = t.list === "video";
-    vp.hidden = !isVid; grid.hidden = isVid;
+    const tp = $("#testiPanel"), isTesti = t.list === "testi";
+    vp.hidden = !isVid; tp.hidden = !isTesti; grid.hidden = isVid || isTesti;
+    if (isTesti) { renderTesti(); $("#catCount").textContent = TESTI.length + " testimoni"; return; }
     if (!isVid) vp.querySelectorAll("video").forEach(v => v.pause());
     if (isVid) { renderVideos(); $("#catCount").textContent = VIDEOS.length + " video"; return; }
     Promise.all(items.map(hasPhoto)).then(ok => {
@@ -211,6 +216,30 @@
       const el = f.querySelector("video");
       el.addEventListener("play", () => g.querySelectorAll("video").forEach(o => { if (o !== el) o.pause(); }));
       g.appendChild(f);
+    });
+  }
+  // ---------- Testimoni grid + lightbox ----------
+  let lbIdx = 0;
+  const lb = $("#lightbox"), lbImg = $("#lbImg");
+  function lbShow(i) { lbIdx = (i + TESTI.length) % TESTI.length; lbImg.src = TESTI[lbIdx].foto; lbImg.alt = "Testimoni pelanggan " + (lbIdx + 1); $("#lbCount").textContent = (lbIdx + 1) + " / " + TESTI.length; }
+  function lbOpen(i) { lbShow(i); lb.hidden = false; document.body.style.overflow = "hidden"; $("#lbClose").focus(); }
+  function lbClose() { lb.hidden = true; document.body.style.overflow = ""; lbImg.removeAttribute("src"); }
+  $("#lbClose").onclick = lbClose;
+  $("#lbPrev").onclick = e => { e.stopPropagation(); lbShow(lbIdx - 1); };
+  $("#lbNext").onclick = e => { e.stopPropagation(); lbShow(lbIdx + 1); };
+  lb.onclick = e => { if (e.target === lb || e.target.classList.contains("lb-stage")) lbClose(); };
+  document.addEventListener("keydown", e => { if (lb.hidden) return; if (e.key === "Escape") lbClose(); if (e.key === "ArrowLeft") lbShow(lbIdx - 1); if (e.key === "ArrowRight") lbShow(lbIdx + 1); });
+  let tx = null;
+  lb.addEventListener("touchstart", e => { tx = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) lbShow(lbIdx + (dx < 0 ? 1 : -1)); tx = null; });
+  function renderTesti() {
+    const g = $("#testiGrid");
+    if (g.childElementCount) return;
+    TESTI.forEach((t, i) => {
+      const b = document.createElement("button"); b.type = "button"; b.className = "tcard"; b.setAttribute("aria-label", "Perbesar testimoni " + (i + 1));
+      b.innerHTML = '<img src="' + t.foto + '" alt="Screenshot chat testimoni pelanggan ' + (i + 1) + '" loading="lazy"><span class="tzoom">Perbesar</span>';
+      b.onclick = () => lbOpen(i);
+      g.appendChild(b);
     });
   }
   selectTab(PROMO.length ? "promo" : "main");
@@ -268,7 +297,7 @@
     let slug = null;
     if (/^(produk|ramadan|nataru)-\d+$/.test(h)) slug = h;
     else if (q) slug = /^(ramadan|nataru)-\d+$/i.test(q) ? q.toLowerCase() : /^r\d+$/i.test(q) ? "ramadan-" + q.slice(1).padStart(2, "0") : /^n\d+$/i.test(q) ? "nataru-" + q.slice(1).padStart(2, "0") : "produk-" + String(q).padStart(2, "0");
-    const listHash = { koleksi: "main", "promo-ramadan": "promo", "promo-nataru": "nataru", "video-review": "video" };
+    const listHash = { koleksi: "main", "promo-ramadan": "promo", "promo-nataru": "nataru", "video-review": "video", testimoni: "testi" };
     if (listHash[h]) { if (modal.classList.contains("open")) { modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; cur = null; } selectTab(listHash[h]); return; }
     if (slug) {
       const p = ALL.find(x => x._slug === slug);
@@ -279,7 +308,7 @@
   }
   window.addEventListener("hashchange", route);
   // First load always opens photos: Video Review only opens after its tab/menu is clicked
-  if (location.hash === "#video-review") history.replaceState(null, "", location.pathname + location.search);
+  if (location.hash === "#video-review" || location.hash === "#testimoni") history.replaceState(null, "", location.pathname + location.search);
   route();
 
   // Mobile nav

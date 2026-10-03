@@ -573,3 +573,8 @@ const VIDEO_REVIEW = [
   { judul: "Review Buket dari Hijab", video: "assets/videos/review-03.mp4", poster: "assets/videos/review-03.jpg" },
   { judul: "Review Parcel Lebaran 100K", video: "assets/videos/review-04.mp4", poster: "assets/videos/review-04.jpg" }
 ];
+
+// =============================================================
+//  TESTIMONI — screenshot chat pelanggan di assets/testimoni/
+// =============================================================
+const TESTIMONI = [1, 2, 3, 4, 5, 6].map(n => ({ foto: "assets/testimoni/testimoni-0" + n + ".webp" }));

@@ -287,7 +287,7 @@ b,strong{font-weight:500}
    Fixed layer painted above section backgrounds but below all text/content,
    so it stays visible on both light and dark sections without hurting legibility. */
 body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:url("assets/bg/hawa-cutout.webp?v=20261003143144") 38% bottom/auto 96vh no-repeat;opacity:.10}
+  background:url("assets/bg/hawa-cutout.webp?v=20261003220813") 38% bottom/auto 96vh no-repeat;opacity:.10}
 @media (max-width:800px){ body::before{background-position:center bottom;background-size:auto 78vh} }
 .hero>*,.occasions>*,.section>*,.footer>*,.pp>*{position:relative;z-index:2}
 .catalog>.anchor{position:absolute;z-index:0}
@@ -329,3 +329,21 @@ body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
   .nav-links .btn-sm{padding:.45rem .6rem}
   .brand{font-size:1.1rem}
 }
+/* ---------- Testimoni ---------- */
+.testi-panel[hidden],.lightbox[hidden]{display:none}
+.testi-note{color:#d9cfe2;font-size:.92rem;margin:0 0 1.4rem}
+.testi-grid{columns:3 200px;column-gap:1.2rem}
+.tcard{display:block;width:100%;margin:0 0 1.2rem;padding:.5rem;border:0;background:#fff;box-shadow:0 18px 40px rgba(5,0,10,.35);cursor:zoom-in;position:relative;break-inside:avoid}
+.tcard img{display:block;width:100%;height:auto}
+.tzoom{position:absolute;right:.9rem;bottom:.9rem;background:rgba(36,17,48,.82);color:#fff;font-family:Jost,sans-serif;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;padding:.35rem .6rem}
+.tcard:hover{outline:1px solid var(--champ)}
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(18,6,26,.94);display:flex;align-items:center;justify-content:center}
+.lb-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:3.5rem 4.5rem}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb-close,.lb-nav{position:absolute;background:rgba(255,255,255,.08);border:1px solid rgba(200,178,138,.5);color:#fff;cursor:pointer;line-height:1}
+.lb-close{top:1rem;right:1rem;width:44px;height:44px;font-size:1.8rem}
+.lb-nav{top:50%;transform:translateY(-50%);width:48px;height:64px;font-size:2.2rem}
+.lb-prev{left:1rem}.lb-next{right:1rem}
+.lb-count{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);color:#d9cfe2;font-family:Jost,sans-serif;font-size:.8rem;letter-spacing:.2em}
+@media (max-width:640px){ .testi-grid{columns:2;column-gap:.7rem} .tcard{margin-bottom:.7rem;padding:.3rem} .tzoom{font-size:.52rem;right:.5rem;bottom:.5rem} .lb-stage{padding:3.6rem .6rem 3rem} .lb-nav{top:auto;bottom:.6rem;transform:none;width:44px;height:44px;font-size:1.8rem} }
+@media (max-width:1100px) and (min-width:901px){ .nav-links{gap:.7rem;font-size:.62rem;letter-spacing:.05em} .nav-links .btn-sm{padding:.45rem .65rem} }
