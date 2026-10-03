@@ -577,4 +577,4 @@ const VIDEO_REVIEW = [
 // =============================================================
 //  TESTIMONI — screenshot chat pelanggan di assets/testimoni/
 // =============================================================
-const TESTIMONI = [1, 2, 3, 4, 5, 6].map(n => ({ foto: "assets/testimoni/testimoni-0" + n + ".webp" }));
+const TESTIMONI = Array.from({ length: 13 }, (_, i) => ({ foto: "assets/testimoni/testimoni-" + String(i + 1).padStart(2, "0") + ".webp" }));
