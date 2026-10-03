@@ -110,16 +110,17 @@
   const mainCats = (typeof KATEGORI !== "undefined" ? KATEGORI : ["Semua"]).filter(k => k !== "Semua");
   const promoCats = (typeof PROMO_KATEGORI !== "undefined" ? PROMO_KATEGORI : ["Semua"]).filter(k => k !== "Semua");
   const TABS = [];
+  // Natal & Tahun Baru first (default tab on first load)
+  if (NATARU.length) {
+    const nCats = (typeof NATARU_KATEGORI !== "undefined" ? NATARU_KATEGORI : ["Semua"]).filter(k => k !== "Semua");
+    TABS.push({ key: "nataru", list: "nataru", cat: null, label: "Promo Natal & Tahun Baru", group: true, promo: true, star: true, eyebrow: "Edisi Spesial" });
+    nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Promo Natal & Tahun Baru" }));
+  }
   TABS.push({ key: "main", list: "main", cat: null, label: "Koleksi Bucket Gift", group: true, eyebrow: "Koleksi" });
   mainCats.forEach(c => TABS.push({ key: "main:" + c, list: "main", cat: c, label: c, eyebrow: "Koleksi Bucket Gift" }));
   if (PROMO.length) {
     TABS.push({ key: "promo", list: "promo", cat: null, label: "Promo Ramadan", group: true, promo: true, eyebrow: "Edisi Spesial" });
     promoCats.forEach(c => TABS.push({ key: "promo:" + c, list: "promo", cat: c, label: c, promo: true, eyebrow: "Promo Ramadan" }));
-  }
-  if (NATARU.length) {
-    const nCats = (typeof NATARU_KATEGORI !== "undefined" ? NATARU_KATEGORI : ["Semua"]).filter(k => k !== "Semua");
-    TABS.push({ key: "nataru", list: "nataru", cat: null, label: "Promo Natal & Tahun Baru", group: true, promo: true, star: true, eyebrow: "Edisi Spesial" });
-    nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Promo Natal & Tahun Baru" }));
   }
   const VIDEOS = typeof VIDEO_REVIEW !== "undefined" ? VIDEO_REVIEW : [];
   if (VIDEOS.length) TABS.push({ key: "video", list: "video", cat: null, label: "Video Review", group: true, promo: true, icon: "▶", eyebrow: "Testimoni" });
@@ -242,7 +243,7 @@
       g.appendChild(b);
     });
   }
-  selectTab(PROMO.length ? "promo" : "main");
+  selectTab(NATARU.length ? "nataru" : PROMO.length ? "promo" : "main");
 
   // ---------- Detail modal ----------
   const modal = $("#modal");
