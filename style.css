@@ -282,3 +282,12 @@ b,strong{font-weight:500}
 .foot-social a:hover{border-color:var(--champ);color:#fff}
 .pp-social{margin-top:1rem;font-size:.85rem;color:var(--muted)}
 .pp-social a{display:inline-flex;align-items:center;gap:.35rem;color:var(--plum);border-bottom:1px solid var(--lav)}
+
+/* ---------- Background cutout layer (foto tanpa latar, 90% transparan / opacity .10) ----------
+   Fixed layer painted above section backgrounds but below all text/content,
+   so it stays visible on both light and dark sections without hurting legibility. */
+body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:url("assets/bg/hawa-cutout.webp") right 4vw bottom/auto 92vh no-repeat;opacity:.10}
+@media (max-width:800px){ body::before{background-position:center bottom;background-size:auto 78vh} }
+.hero>*,.occasions>*,.section>*,.footer>*,.pp>*{position:relative;z-index:2}
+.catalog>.anchor{position:absolute;z-index:0}
