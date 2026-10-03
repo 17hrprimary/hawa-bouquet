@@ -547,5 +547,17 @@ const PROMO_NATARU = [
     deskripsi: "Paket sembako Natal & Tahun Baru dengan pita merah, praktis dan bermanfaat untuk keluarga.",
     isi: ["Gula pasir", "Rosina", "Kopi Kapal Api", "Mi instan", "Minyak goreng Rizki", "Pita merah"],
     foto: "assets/nataru/nataru-03.jpg"
+  },
+  {
+    id: "nataru-04",
+    kode: "N04",
+    nama: "Parcel Natal Good Time",
+    kategori: "Parcel Natal",
+    harga: "",
+    estimasi: "x hari",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Parcel Natal & Tahun Baru dalam keranjang anyaman dengan pita hijau-merah dan selempang \"Selamat Natal & Tahun Baru\", berisi cokelat, cookies, dan sirup.",
+    isi: ["Astor cokelat", "Good Time cookies", "Roll wafer", "Biskuit stik", "Sirup", "Keranjang anyaman + selempang \"Selamat Natal & Tahun Baru\""],
+    foto: "assets/nataru/nataru-04.jpg"
   }
 ];
