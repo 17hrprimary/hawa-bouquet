@@ -21,7 +21,11 @@
   const PROMO = typeof PROMO_RAMADAN !== "undefined" ? PROMO_RAMADAN : [];
   PRODUCTS.forEach(p => { p._slug = "produk-" + p.id; p._label = "No. " + p.id; p._page = p.id; p._list = "main"; });
   PROMO.forEach(p => { p._slug = p.id; p._label = p.kode || p.id; p._page = p.id; p._list = "promo"; });
-  const ALL = PRODUCTS.concat(PROMO);
+  const NATARU = typeof PROMO_NATARU !== "undefined" ? PROMO_NATARU : [];
+  NATARU.forEach(p => { p._slug = p.id; p._label = p.kode || p.id; p._page = p.id; p._list = "nataru"; });
+  const ALL = PRODUCTS.concat(PROMO, NATARU);
+  const LIST_NAME = { main: "Koleksi Bucket Gift", promo: "Promo Ramadan", nataru: "Promo Natal & Tahun Baru" };
+  const LIST_HASH = { main: "#koleksi", promo: "#promo-ramadan", nataru: "#promo-nataru" };
 
   // ---------- Share links ----------
   // Default: absolute link to this page + #produk-NN / #ramadan-NN (location.origin + path).
@@ -104,7 +108,12 @@
     TABS.push({ key: "promo", list: "promo", cat: null, label: "Promo Ramadan", group: true, promo: true, eyebrow: "Edisi Spesial" });
     promoCats.forEach(c => TABS.push({ key: "promo:" + c, list: "promo", cat: c, label: c, promo: true, eyebrow: "Promo Ramadan" }));
   }
-  const listOf = name => name === "promo" ? PROMO : PRODUCTS;
+  if (NATARU.length) {
+    const nCats = (typeof NATARU_KATEGORI !== "undefined" ? NATARU_KATEGORI : ["Semua"]).filter(k => k !== "Semua");
+    TABS.push({ key: "nataru", list: "nataru", cat: null, label: "Promo Natal & Tahun Baru", group: true, promo: true, star: true, eyebrow: "Edisi Spesial" });
+    nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Promo Natal & Tahun Baru" }));
+  }
+  const listOf = name => name === "promo" ? PROMO : name === "nataru" ? NATARU : PRODUCTS;
   const itemsOf = t => listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
   const catList = $("#catList"), grid = $("#catGrid"), empty = $("#catEmpty");
   let activeTab = null, visible = [], renderSeq = 0;
@@ -113,7 +122,7 @@
     const b = document.createElement("button");
     b.type = "button"; b.setAttribute("role", "tab"); b.dataset.key = t.key;
     b.className = "cat-tab" + (t.group ? " cat-group" : " cat-sub") + (t.promo ? " is-promo" : "");
-    b.innerHTML = (t.group && t.promo ? '<span class="cat-moon">☾</span>' : "") + '<span class="cat-label">' + t.label + '</span><span class="cat-badge" data-badge></span>';
+    b.innerHTML = (t.group && t.promo ? '<span class="cat-moon">' + (t.star ? "✦" : "☾") + "</span>" : "") + '<span class="cat-label">' + t.label + '</span><span class="cat-badge" data-badge></span>';
     b.onclick = () => { selectTab(t.key); };
     catList.appendChild(b);
   });
@@ -130,7 +139,7 @@
     const card = document.createElement("article");
     card.className = "card"; card.tabIndex = 0; card.id = "kartu-" + p._slug;
     card.appendChild(media(p, "card-m"));
-    const no = document.createElement("span"); no.className = "card-no" + (p._list === "promo" ? " promo-no" : ""); no.textContent = p._label;
+    const no = document.createElement("span"); no.className = "card-no" + (p._list !== "main" ? " promo-no" : ""); no.textContent = p._label;
     card.appendChild(no);
     const body = document.createElement("div");
     body.className = "card-body";
@@ -166,13 +175,14 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(center);
     $("#catEyebrow").textContent = t.eyebrow;
     $("#catTitle").textContent = t.group ? t.label : t.label;
-    $("#katalog").classList.toggle("promo-mode", t.list === "promo");
+    $("#katalog").classList.toggle("promo-mode", t.list !== "main");
+    $("#katalog").classList.toggle("nataru-mode", t.list === "nataru");
     const seq = ++renderSeq, items = itemsOf(t);
     grid.innerHTML = ""; empty.hidden = true; $("#catCount").textContent = "";
     Promise.all(items.map(hasPhoto)).then(ok => {
       if (seq !== renderSeq) return;
       // Promo items always show; main items only when their photo exists
-      visible = t.list === "promo" ? items : items.filter((p, i) => ok[i]);
+      visible = t.list !== "main" ? items : items.filter((p, i) => ok[i]);
       visible.forEach(p => grid.appendChild(cardFor(p)));
       empty.hidden = visible.length > 0;
       $("#catCount").textContent = visible.length ? visible.length + " produk" : "";
@@ -189,7 +199,7 @@
     if (!p) return;
     cur = p;
     const mm = $("#modalMedia"); mm.innerHTML = ""; mm.appendChild(media(p, "modal-m"));
-    $("#mKategori").textContent = (p.kategori || "") + " · " + p._label + (p._list === "promo" ? " · Promo Ramadan" : "");
+    $("#mKategori").textContent = (p.kategori || "") + " · " + p._label + (p._list !== "main" ? " · " + LIST_NAME[p._list] : "");
     $("#mNama").textContent = p.nama;
     $("#mHarga").textContent = priceOf(p); $("#mHarga").classList.toggle("ask", isAsk(p));
     $("#mEstimasi").textContent = "Estimasi pembuatan: " + p.estimasi;
@@ -212,7 +222,7 @@
   function closeModal() {
     modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = ""; document.title = SHOP.nama + " — Bucket Gift & Hampers";
-    if (cur) { const c = document.getElementById("kartu-" + cur._slug); setHash(cur._list === "promo" ? "#promo-ramadan" : "#koleksi"); if (c) c.scrollIntoView({ block: "center" }); }
+    if (cur) { const c = document.getElementById("kartu-" + cur._slug); setHash(LIST_HASH[cur._list] || "#koleksi"); if (c) c.scrollIntoView({ block: "center" }); }
     cur = null;
   }
   modal.querySelectorAll("[data-close]").forEach(el => el.onclick = closeModal);
@@ -230,9 +240,10 @@
     const h = location.hash.slice(1);
     const q = new URLSearchParams(location.search).get("p");
     let slug = null;
-    if (/^(produk|ramadan)-\d+$/.test(h)) slug = h;
-    else if (q) slug = /^ramadan-\d+$/i.test(q) ? q.toLowerCase() : /^r\d+$/i.test(q) ? "ramadan-" + q.slice(1).padStart(2, "0") : "produk-" + String(q).padStart(2, "0");
-    if (h === "promo-ramadan" || h === "koleksi") { selectTab(h === "koleksi" ? "main" : "promo"); return; }
+    if (/^(produk|ramadan|nataru)-\d+$/.test(h)) slug = h;
+    else if (q) slug = /^(ramadan|nataru)-\d+$/i.test(q) ? q.toLowerCase() : /^r\d+$/i.test(q) ? "ramadan-" + q.slice(1).padStart(2, "0") : /^n\d+$/i.test(q) ? "nataru-" + q.slice(1).padStart(2, "0") : "produk-" + String(q).padStart(2, "0");
+    const listHash = { koleksi: "main", "promo-ramadan": "promo", "promo-nataru": "nataru" };
+    if (listHash[h]) { if (modal.classList.contains("open")) { modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; cur = null; } selectTab(listHash[h]); return; }
     if (slug) {
       const p = ALL.find(x => x._slug === slug);
       if (p && (!activeTab || activeTab.list !== p._list || (activeTab.cat && activeTab.cat !== p.kategori))) selectTab(p._list);

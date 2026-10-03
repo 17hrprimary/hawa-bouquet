@@ -14,7 +14,7 @@ const SHOP = {
   alamat: "Alamat / kota toko",
   jamBuka: "Jam buka: xx.00 – xx.00",
   area: "Area pengiriman: (isi area)",
-  siteUrl: "https://hanrin01.github.io/hawa-bouquet/"                        // isi setelah online, mis. "https://namatoko.com/" -> link share memakai p/NN.html (preview foto di WA)
+  siteUrl: "https://17hrprimary.github.io/hawa-bouquet/"                        // isi setelah online, mis. "https://namatoko.com/" -> link share memakai p/NN.html (preview foto di WA)
 };
 
 const KATEGORI = ["Semua", "Bucket Bunga", "Bucket Snack", "Bucket Uang", "Parcel / Hampers", "Bucket Boneka"];
@@ -505,5 +505,47 @@ const PROMO_RAMADAN = [
     deskripsi: "Paket sembako Idul Fitri (tanpa keranjang) berisi kebutuhan dapur sehari-hari.",
     isi: ["Gula pasir", "Minyak goreng Rizki", "Kopi Kapal Api", "Mi instan", "Rosina"],
     foto: "assets/ramadan/ramadan-17.jpg"
+  }
+];
+
+// ---------- PROMO NATAL & TAHUN BARU — menu terpisah. Tambah item: id "nataru-04", kode "N04", dst. ----------
+// Link: index.html#nataru-01, halaman: p/nataru-01.html. Foto: assets/nataru/
+const NATARU_KATEGORI = ["Semua", "Parcel Natal", "Paket Sembako"];
+const PROMO_NATARU = [
+  {
+    id: "nataru-01",
+    kode: "N01",
+    nama: "Parcel Natal Astor Choco",
+    kategori: "Parcel Natal",
+    harga: "",
+    estimasi: "x hari",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Parcel Natal & Tahun Baru dalam keranjang abu-abu elegan dengan pita hijau-merah, kartu \"Merry Christmas & Happy New Year\", dan aneka cokelat serta biskuit.",
+    isi: ["Astor cokelat", "Nabati Bites", "Biskuit Stik (2 kotak)", "Roll wafer", "Sirup", "Keranjang abu-abu + selempang \"Selamat Natal & Tahun Baru\""],
+    foto: "assets/nataru/nataru-01.jpg"
+  },
+  {
+    id: "nataru-02",
+    kode: "N02",
+    nama: "Parcel Natal Zyluc",
+    kategori: "Parcel Natal",
+    harga: "",
+    estimasi: "x hari",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Parcel Natal & Tahun Baru dalam keranjang abu-abu berisi stik cokelat, wafer, dan teh, dengan kartu \"Merry Christmas & Happy New Year\".",
+    isi: ["Zyluc stik cokelat (2 kotak)", "Wafer cokelat", "Teh Botol", "Keranjang abu-abu + selempang \"Selamat Natal & Tahun Baru\""],
+    foto: "assets/nataru/nataru-02.jpg"
+  },
+  {
+    id: "nataru-03",
+    kode: "N03",
+    nama: "Paket Sembako Natal",
+    kategori: "Paket Sembako",
+    harga: "",
+    estimasi: "x hari",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Paket sembako Natal & Tahun Baru dengan pita merah, praktis dan bermanfaat untuk keluarga.",
+    isi: ["Gula pasir", "Rosina", "Kopi Kapal Api", "Mi instan", "Minyak goreng Rizki", "Pita merah"],
+    foto: "assets/nataru/nataru-03.jpg"
   }
 ];
