@@ -161,7 +161,7 @@
       b.classList.toggle("parent-active", !on && b.dataset.key === t.list);
     });
     const act = catList.querySelector(".cat-tab.active");
-    const center = () => { const a = catList.querySelector(".cat-tab.active"); if (a && window.matchMedia("(max-width: 800px)").matches) catList.scrollLeft = a.offsetLeft - (catList.clientWidth - a.offsetWidth) / 2; };
+    const center = () => { const a = catList.querySelector(".cat-tab.active"); if (a && window.matchMedia("(max-width: 800px)").matches) catList.scrollLeft += a.getBoundingClientRect().left - catList.getBoundingClientRect().left - (catList.clientWidth - a.offsetWidth) / 2; };
     center(); requestAnimationFrame(center); setTimeout(center, 400);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(center);
     $("#catEyebrow").textContent = t.eyebrow;

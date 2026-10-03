@@ -259,3 +259,10 @@ b,strong{font-weight:500}
 .cat-main .card-actions .icon-btn svg{width:12px;height:12px}
 .catalog-layout{grid-template-columns:230px minmax(0,1fr);gap:2.4rem}
 @media (max-width:800px){ .catalog-layout{grid-template-columns:minmax(0,1fr)} .cat-main .card-actions{grid-template-columns:1fr} }
+@media (max-width:800px){
+  .catalog.promo-mode .cat-tab{background:rgba(255,255,255,.06);border-color:rgba(233,225,239,.2);color:#d9cfe2}
+  .catalog.promo-mode .cat-tab.active{background:var(--champ);border-color:var(--champ);color:var(--deep)}
+  .catalog.promo-mode .cat-tab.active .cat-moon{color:var(--deep)}
+  .catalog.promo-mode .cat-tab.active .cat-badge{background:rgba(36,17,48,.15);color:var(--deep)}
+  .catalog.promo-mode .cat-badge.soon{border-color:rgba(233,225,239,.25);color:#bfb0cc}
+}
