@@ -71,7 +71,7 @@
   }
   const orderLink = p => waLink(orderMsg(p));
   function shareWa(p) {
-    const msg = p.nama + " — " + priceOf(p) + " (estimasi pembuatan " + p.estimasi + ")\n" + productUrl(p);
+    const msg = p.nama + " — " + priceOf(p) + " (Estimasi jadi: " + p.estimasi + ")\n" + productUrl(p);
     window.open(waLink(msg, false), "_blank", "noopener");
   }
 
@@ -155,7 +155,7 @@
       '<span class="tag">' + (p.kategori || "") + "</span>" +
       "<h3>" + p.nama + "</h3>" +
       '<div class="card-meta"><span class="price' + (isAsk(p) ? " ask" : "") + '">' + priceOf(p) + "</span>" +
-      '<span class="eta">Estimasi pembuatan <b>' + p.estimasi + "</b></span></div>" +
+      '<span class="eta">Estimasi jadi: <b>' + p.estimasi + "</b></span></div>" +
       '<div class="card-actions"><a class="btn btn-primary btn-sm" href="#' + p._slug + '">Lihat Detail</a>' +
       '<button class="icon-btn" data-copy title="Salin link produk">' + ICON_LINK + "Salin link</button></div>" +
       '<a class="btn btn-wa btn-sm btn-block card-wa" target="_blank" rel="noopener" href="' + orderLink(p) + '">' + ICON_WA + "Pesan via WA</a>";
@@ -210,7 +210,7 @@
     $("#mKategori").textContent = (p.kategori || "") + " · " + p._label + (p._list !== "main" ? " · " + LIST_NAME[p._list] : "");
     $("#mNama").textContent = p.nama;
     $("#mHarga").textContent = priceOf(p); $("#mHarga").classList.toggle("ask", isAsk(p));
-    $("#mEstimasi").textContent = "Estimasi pembuatan: " + p.estimasi;
+    $("#mEstimasi").textContent = "Estimasi jadi: " + p.estimasi;
     $("#mDeskripsi").textContent = p.deskripsi || "";
     $("#mUkuran").textContent = p.ukuran || "";
     $("#mKirim").textContent = SHOP.area || "";
