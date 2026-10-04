@@ -150,15 +150,40 @@
     });
   });
 
+  // [SLIDER KARTU] Produk dengan fotoLain: geser foto langsung di kartu + nomor sudut "1 2" (tanpa membuka popup).
+  // Ketuk foto tetap membuka detail; geser = scroll horizontal bawaan (tidak memicu klik).
+  function cardMedia(p) {
+    const srcs = p.foto ? [p.foto].concat(p.fotoLain || []) : [];
+    if (srcs.length < 2) return media(p, "card-m");
+    const m = document.createElement("div");
+    m.className = "media card-m card-slider";
+    const track = document.createElement("div"); track.className = "cs-track";
+    const pills = document.createElement("div"); pills.className = "cs-pills"; pills.setAttribute("aria-label", srcs.length + " sudut foto");
+    srcs.forEach((src, i) => {
+      const sl = document.createElement("div"); sl.className = "cs-slide";
+      const img = new Image(); img.alt = p.nama + " — sudut " + (i + 1); img.decoding = "async"; img.loading = "lazy"; img.src = src;
+      sl.appendChild(img); track.appendChild(sl);
+      const b = document.createElement("button"); b.type = "button"; b.className = "cs-pill"; b.textContent = i + 1;
+      b.setAttribute("aria-label", "Lihat sudut foto " + (i + 1));
+      b.onclick = e => { e.stopPropagation(); go(i); };
+      pills.appendChild(b);
+    });
+    let idx = -1;
+    function mark(i) { if (i === idx) return; idx = i; [...pills.children].forEach((b, j) => { b.classList.toggle("on", j === i); b.setAttribute("aria-current", j === i ? "true" : "false"); }); if (i > 0) m.classList.add("seen"); }
+    function go(i) { track.scrollTo({ left: i * track.clientWidth, behavior: "smooth" }); mark(i); }
+    let raf; track.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => mark(Math.round(track.scrollLeft / Math.max(1, track.clientWidth)))); }, { passive: true });
+    pills.addEventListener("click", e => e.stopPropagation());   // ketuk area nomor tidak membuka popup
+    m.appendChild(track); m.appendChild(pills);
+    mark(0);
+    return m;
+  }
+
   function cardFor(p) {
     const card = document.createElement("article");
     card.className = "card"; card.tabIndex = 0; card.id = "kartu-" + p._slug;
-    card.appendChild(media(p, "card-m"));
+    card.appendChild(cardMedia(p));
     const no = document.createElement("span"); no.className = "card-no" + (p._list !== "main" ? " promo-no" : ""); no.textContent = p._label;
     card.appendChild(no);
-    // [SLIDER MULTI-FOTO] badge "2 foto" di kartu
-    const nFoto = (p.foto ? 1 : 0) + (p.fotoLain || []).length;
-    if (nFoto > 1) { const b = document.createElement("span"); b.className = "card-multi"; b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="3" width="14" height="14" rx="1"/><path d="M3 7v14h14"/></svg>' + nFoto + " foto"; card.appendChild(b); }
     const body = document.createElement("div");
     body.className = "card-body";
     body.innerHTML =

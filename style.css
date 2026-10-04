@@ -287,7 +287,7 @@ b,strong{font-weight:500}
    Fixed layer painted above section backgrounds but below all text/content,
    so it stays visible on both light and dark sections without hurting legibility. */
 body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:url("assets/bg/hawa-cutout.webp?v=20261004195953") 38% bottom/auto 96vh no-repeat;opacity:.10}
+  background:url("assets/bg/hawa-cutout.webp?v=20261004200643") 38% bottom/auto 96vh no-repeat;opacity:.10}
 @media (max-width:800px){ body::before{background-position:center bottom;background-size:auto 78vh} }
 .hero>*,.occasions>*,.section>*,.footer>*,.pp>*{position:relative;z-index:2}
 .catalog>.anchor{position:absolute;z-index:0}
@@ -375,3 +375,17 @@ body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
 .card-multi{position:absolute;top:1rem;right:1rem;z-index:2;display:inline-flex;align-items:center;gap:.3rem;background:rgba(36,17,48,.6);backdrop-filter:blur(4px);color:#fff;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.25rem .55rem}
 .card-multi svg{width:12px;height:12px}
 /* ---------- [/SLIDER MULTI-FOTO] ---------- */
+
+/* [SLIDER KARTU] foto multi-sudut di kartu katalog: geser + nomor sudut */
+.card-slider{isolation:isolate}
+.card-slider .cs-track{position:absolute;inset:0;z-index:1;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.card-slider .cs-track::-webkit-scrollbar{display:none}
+.card-slider .cs-slide{flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
+.card-slider .cs-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.card-slider::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3.2rem;z-index:1;pointer-events:none;background:linear-gradient(transparent,rgba(20,8,28,.45))}
+.cs-pills{position:absolute;left:0;right:0;margin:0 auto;width:max-content;bottom:.6rem;z-index:2;display:flex;gap:.35rem;padding:.2rem;border-radius:999px;background:rgba(36,17,48,.45);backdrop-filter:blur(4px)}
+.cs-pill{min-width:1.7rem;height:1.7rem;padding:0 .35rem;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.85);font:500 .72rem/1 "Jost",sans-serif;cursor:pointer;transition:background .25s,color .25s}
+.cs-pill.on{background:#fff;color:var(--deep)}
+.cs-pill:focus-visible{outline:2px solid var(--champ);outline-offset:1px}
+.card-slider:not(.seen) .cs-pill:not(.on){animation:csHint 1.6s ease 1s 2}
+@keyframes csHint{50%{background:rgba(255,255,255,.35)}}
