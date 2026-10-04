@@ -287,7 +287,7 @@ b,strong{font-weight:500}
    Fixed layer painted above section backgrounds but below all text/content,
    so it stays visible on both light and dark sections without hurting legibility. */
 body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:url("assets/bg/hawa-cutout.webp?v=20261004202448") 38% bottom/auto 96vh no-repeat;opacity:.10}
+  background:url("assets/bg/hawa-cutout.webp?v=20261004205000") 38% bottom/auto 96vh no-repeat;opacity:.10}
 @media (max-width:800px){ body::before{background-position:center bottom;background-size:auto 78vh} }
 .hero>*,.occasions>*,.section>*,.footer>*,.pp>*{position:relative;z-index:2}
 .catalog>.anchor{position:absolute;z-index:0}
@@ -458,3 +458,45 @@ body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
 .catalog .empty h4{color:#fff}
 .catalog .empty p.muted{color:#cdbfd8}
 .catalog .link-promo{color:var(--champ);border-bottom-color:rgba(200,178,138,.5)}
+/* ================= SPECIAL EDITION =================
+   Baris di atas menu kategori utama: Natal & Tahun Baru = merah, Promo Ramadan = hijau.
+   Sub-tab (Parcel Natal / Paket Sembako, dst.) hanya tampil untuk edisi yang sedang aktif. */
+.cat-tab[hidden]{display:none!important}
+.sp-list{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1rem;padding:.9rem .8rem;background:rgba(255,255,255,.05);border:1px solid rgba(200,178,138,.3);box-shadow:0 18px 40px rgba(5,0,10,.3);backdrop-filter:blur(6px)}
+.sp-label{font-family:Jost,sans-serif;font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:#e2c27e;font-weight:500;line-height:1.35;padding:0 .3rem .2rem}
+.sp-label br{display:none}
+.catalog .sp-list .cat-tab{border:1px solid;border-radius:12px;margin:0;padding:.6rem .9rem;color:#fff;font-family:Jost,sans-serif;font-size:.86rem;font-weight:500;transition:background .25s,box-shadow .25s,border-color .25s}
+.catalog .sp-list .cat-sub{font-weight:400;font-size:.8rem;padding:.42rem .9rem .42rem 1.6rem;border-radius:999px;background:transparent}
+.catalog .sp-list .cat-moon{color:#f3d58f}
+/* Natal & Tahun Baru: merah */
+.catalog .sp-list .sp-natal.cat-group{background:linear-gradient(135deg,#a3162c,#6e0b1c);border-color:#d0344a}
+.catalog .sp-list .sp-natal.cat-group.active,.catalog .sp-list .sp-natal.cat-group.parent-active{background:linear-gradient(135deg,#e0283f,#a3132a);border-color:#f3d58f;box-shadow:0 0 0 2px rgba(243,213,143,.35),0 8px 20px rgba(200,20,45,.45)}
+.catalog .sp-list .sp-natal.cat-sub{border-color:rgba(230,70,90,.6);color:#ffd9de}
+.catalog .sp-list .sp-natal.cat-sub.active{background:#d4223a;border-color:#d4223a;color:#fff}
+/* Promo Ramadan: hijau */
+.catalog .sp-list .sp-ramadan.cat-group{background:linear-gradient(135deg,#13804f,#0a5234);border-color:#2fb373}
+.catalog .sp-list .sp-ramadan.cat-group.active,.catalog .sp-list .sp-ramadan.cat-group.parent-active{background:linear-gradient(135deg,#1fae6a,#0f7a49);border-color:#f3d58f;box-shadow:0 0 0 2px rgba(243,213,143,.35),0 8px 20px rgba(20,160,90,.4)}
+.catalog .sp-list .sp-ramadan.cat-sub{border-color:rgba(60,190,120,.6);color:#d3f5e2}
+.catalog .sp-list .sp-ramadan.cat-sub.active{background:#18a062;border-color:#18a062;color:#fff}
+.catalog .sp-list .cat-badge{background:rgba(255,255,255,.2);color:#fff}
+.catalog .sp-list .cat-tab:hover{filter:brightness(1.1)}
+@media (max-width:800px){
+  .cat-side{display:flex;flex-direction:column}
+  .sp-list{flex-direction:row;align-items:center;overflow-x:auto;gap:.45rem;margin:0;padding:.55rem 6vw;border:0;border-bottom:1px solid rgba(243,213,143,.18);box-shadow:none;background:rgba(30,12,40,.96);scrollbar-width:none}
+  .sp-list::-webkit-scrollbar{display:none}
+  .sp-label{flex:0 0 auto;padding:0 .2rem 0 0;font-size:.56rem;letter-spacing:.18em;border-right:1px solid rgba(243,213,143,.35);padding-right:.55rem;margin-right:.1rem}
+  .sp-label br{display:inline}
+  .catalog .sp-list .cat-tab{flex:0 0 auto;width:auto;white-space:nowrap;padding:.45rem .85rem;font-size:.78rem;border-radius:999px}
+  .catalog .sp-list .cat-sub{padding:.4rem .8rem;font-size:.74rem}
+  .catalog .sp-list .cat-tab.active .cat-moon{color:#f3d58f}
+  .catalog .sp-list .cat-tab.active .cat-badge{background:rgba(255,255,255,.25);color:#fff}
+}
+.catalog .sp-list .cat-tab.active,.catalog .sp-list .cat-group.parent-active{color:#fff}
+@media (max-width:800px){
+  /* label "Special Edition" tetap terlihat saat baris digeser */
+  .sp-label{position:sticky;left:0;z-index:1;align-self:stretch;display:flex;align-items:center;margin-left:-6vw;padding-left:6vw;background:linear-gradient(90deg,#1e0c28 85%,rgba(30,12,40,0))}
+}
+@media (max-width:800px){
+  .sp-list{padding-left:0}
+  .sp-label{margin-left:0;padding-left:6vw;background:#1e0c28;box-shadow:10px 0 10px -4px #1e0c28}
+}

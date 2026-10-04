@@ -128,24 +128,27 @@
   if (TESTI.length) TABS.push({ key: "testi", list: "testi", cat: null, label: "Testimoni", title: "Kata Pelanggan Hawa Bouquet", group: true, promo: true, icon: "♡", eyebrow: "Testimoni" });
   const listOf = name => name === "promo" ? PROMO : name === "nataru" ? NATARU : PRODUCTS;
   const itemsOf = t => (t.list === "video" || t.list === "testi") ? [] : listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
-  const catList = $("#catList"), grid = $("#catGrid"), empty = $("#catEmpty");
+  const catList = $("#catList"), spList = $("#spList"), catSide = $(".cat-side"), grid = $("#catGrid"), empty = $("#catEmpty");
+  // [SPECIAL EDITION] Natal & Tahun Baru (merah) + Promo Ramadan (hijau) di baris atas; sub-tab tampil hanya untuk edisi yang aktif
+  const isSpecial = t => t.list === "nataru" || t.list === "promo";
   let activeTab = null, visible = [], renderSeq = 0;
 
   TABS.forEach(t => {
     const b = document.createElement("button");
     b.type = "button"; b.setAttribute("role", "tab"); b.dataset.key = t.key;
     b.className = "cat-tab" + (t.group ? " cat-group" : " cat-sub") + (t.promo ? " is-promo" : "");
+    if (isSpecial(t)) { b.classList.add("sp-tab", t.list === "nataru" ? "sp-natal" : "sp-ramadan"); b.dataset.list = t.list; if (!t.group) b.hidden = true; }
     b.innerHTML = (t.group && t.promo ? '<span class="cat-moon">' + (t.icon || (t.star ? "✦" : "☾")) + "</span>" : "") + '<span class="cat-label">' + t.label + '</span><span class="cat-badge" data-badge></span>';
     b.onclick = () => { selectTab(t.key); };
-    catList.appendChild(b);
+    (isSpecial(t) ? spList : catList).appendChild(b);
   });
   // Badges: count of items with photos; "Segera" if none yet
   TABS.forEach(t => {
-    if (t.list === "testi") { catList.querySelector('[data-key="testi"] [data-badge]').textContent = TESTI.length; return; }
-    if (t.list === "video") { const el = catList.querySelector('[data-key="video"] [data-badge]'); el.textContent = VIDEOS.length; return; }
+    if (t.list === "testi") { catSide.querySelector('[data-key="testi"] [data-badge]').textContent = TESTI.length; return; }
+    if (t.list === "video") { const el = catSide.querySelector('[data-key="video"] [data-badge]'); el.textContent = VIDEOS.length; return; }
     Promise.all(itemsOf(t).map(hasPhoto)).then(r => {
       const n = r.filter(Boolean).length;
-      const el = catList.querySelector('[data-key="' + t.key + '"] [data-badge]');
+      const el = catSide.querySelector('[data-key="' + t.key + '"] [data-badge]');
       el.textContent = n ? n : "Segera"; el.classList.toggle("soon", !n);
     });
   });
@@ -204,14 +207,16 @@
   function selectTab(key) {
     const t = TABS.find(x => x.key === key) || TABS[0];
     activeTab = t;
-    catList.querySelectorAll(".cat-tab").forEach(b => {
+    catSide.querySelectorAll(".cat-tab").forEach(b => {
       const on = b.dataset.key === t.key;
       b.classList.toggle("active", on); b.setAttribute("aria-selected", on);
       // keep parent group highlighted when a sub-item is active
       b.classList.toggle("parent-active", !on && b.dataset.key === t.list);
+      if (b.classList.contains("sp-tab") && b.classList.contains("cat-sub")) b.hidden = b.dataset.list !== t.list;
     });
-    const act = catList.querySelector(".cat-tab.active");
-    const center = () => { const a = catList.querySelector(".cat-tab.active"); if (a && window.matchMedia("(max-width: 800px)").matches) catList.scrollLeft += a.getBoundingClientRect().left - catList.getBoundingClientRect().left - (catList.clientWidth - a.offsetWidth) / 2; };
+    spList.classList.toggle("sp-on", isSpecial(t));
+    const centerIn = bar => { const a = bar.querySelector(".cat-tab.active"); if (a && window.matchMedia("(max-width: 800px)").matches) bar.scrollLeft += a.getBoundingClientRect().left - bar.getBoundingClientRect().left - (bar.clientWidth - a.offsetWidth) / 2; };
+    const center = () => { if (isSpecial(t)) { centerIn(spList); catList.scrollLeft = 0; } else { centerIn(catList); spList.scrollLeft = 0; } };
     center(); requestAnimationFrame(center); setTimeout(center, 400);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(center);
     $("#catEyebrow").textContent = t.eyebrow;
