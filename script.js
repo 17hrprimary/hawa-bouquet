@@ -34,10 +34,10 @@
   const ALL = PRODUCTS.concat(PROMO, NATARU);
   const LIST_NAME = { main: "Koleksi Bucket Gift", promo: "Paket Ramadan", nataru: "Paket Natal & Tahun Baru" };
   const LIST_HASH = { main: "#koleksi", promo: "#paket-ramadan", nataru: "#paket-nataru" };
-  // [PAKET SEMBAKO] sembako dari Natal & Ramadan digabung jadi 1 menu utama (tema ungu biasa)
+  // [PAKET SEMBAKO] sembako Ramadan/Lebaran jadi 1 menu utama (tema ungu biasa); sembako Natal tetap di Special Edition Natal & Tahun Baru
   const SEMBAKO_CAT = "Paket Sembako";
-  const isSembako = p => p._list !== "main" && p.kategori === SEMBAKO_CAT;
-  const SEMBAKO = NATARU.concat(PROMO).filter(isSembako);
+  const isSembako = p => p._list === "promo" && p.kategori === SEMBAKO_CAT;
+  const SEMBAKO = PROMO.filter(isSembako);
   const hashOf = p => isSembako(p) ? "#paket-sembako" : (LIST_HASH[p._list] || "#koleksi");
 
   // ---------- Share links ----------
@@ -117,9 +117,9 @@
   const TABS = [];
   // Natal & Tahun Baru first (default tab on first load)
   if (NATARU.length) {
-    const nCats = (typeof NATARU_KATEGORI !== "undefined" ? NATARU_KATEGORI : ["Semua"]).filter(k => k !== "Semua" && k !== SEMBAKO_CAT);
+    const nCats = (typeof NATARU_KATEGORI !== "undefined" ? NATARU_KATEGORI : ["Semua"]).filter(k => k !== "Semua");
     TABS.push({ key: "nataru", list: "nataru", cat: null, label: "Paket Natal & Tahun Baru", group: true, promo: true, star: true, eyebrow: "Edisi Spesial" });
-    if (nCats.length > 1) nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Paket Natal & Tahun Baru" }));
+    nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Paket Natal & Tahun Baru" }));
   }
   TABS.push({ key: "main", list: "main", cat: null, label: "Koleksi Bucket Gift", group: true, eyebrow: "Koleksi" });
   mainCats.forEach(c => TABS.push({ key: "main:" + c, list: "main", cat: c, label: c, eyebrow: "Koleksi Bucket Gift" }));
@@ -132,7 +132,7 @@
   if (VIDEOS.length) TABS.push({ key: "video", list: "video", cat: null, label: "Video Review", group: true, promo: true, icon: "▶", eyebrow: "Testimoni" });
   const TESTI = typeof TESTIMONI !== "undefined" ? TESTIMONI : [];
   if (TESTI.length) TABS.push({ key: "testi", list: "testi", cat: null, label: "Testimoni", title: "Kata Pelanggan Hawa Bouquet", group: true, promo: true, icon: "♡", eyebrow: "Testimoni" });
-  const listOf = name => name === "sembako" ? SEMBAKO : name === "promo" ? PROMO.filter(p => !isSembako(p)) : name === "nataru" ? NATARU.filter(p => !isSembako(p)) : PRODUCTS;
+  const listOf = name => name === "sembako" ? SEMBAKO : name === "promo" ? PROMO.filter(p => !isSembako(p)) : name === "nataru" ? NATARU : PRODUCTS;
   const listKeyOf = p => isSembako(p) ? "sembako" : p._list;
   const itemsOf = t => (t.list === "video" || t.list === "testi") ? [] : listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
   const catList = $("#catList"), spList = $("#spList"), catSide = $(".cat-side"), grid = $("#catGrid"), empty = $("#catEmpty");

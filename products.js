@@ -574,7 +574,7 @@ const PRODUCTS = [
 
 // ---------- PAKET RAMADAN — menu terpisah. Tambah item baru dengan id "ramadan-18", kode "R18", dst. ----------
 // Link: index.html#ramadan-01, halaman: p/ramadan-01.html. Foto: assets/ramadan/
-// Item kategori "Paket Sembako" (Ramadan & Natal) otomatis tampil di menu utama "Paket Sembako", bukan di Special Edition.
+// Item kategori "Paket Sembako" Ramadan otomatis tampil di menu utama "Paket Sembako". Paket Sembako Natal (N03) tetap di Special Edition Natal & Tahun Baru.
 const PROMO_KATEGORI = ["Semua", "Parcel Lebaran", "Paket Sembako"];
 const PROMO_RAMADAN = [
   {
