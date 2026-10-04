@@ -109,7 +109,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang dengan susunan uang kertas berbentuk bunga besar, glitter ungu, dan ruffle putih.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Glitter ungu", "Wrapping putih + pita lilac"],
-    foto: "assets/products/08.jpg"
+    foto: "assets/products/08.jpg",
+    fotoLain: ["assets/products/08-2.jpg"]
   },
   {
     id: "09",
@@ -153,7 +154,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang dengan uang kertas yang dibentuk bunga-bunga kecil bernuansa ungu, ruffle putih, dan wrapping lilac berhias pita.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Wrapping lilac + ruffle putih", "Pita lilac"],
-    foto: "assets/products/13.jpg"
+    foto: "assets/products/13.jpg",
+    fotoLain: ["assets/products/13-2.jpg"]
   },
   {
     id: "14",
@@ -186,7 +188,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang dengan mawar ungu dan kupu-kupu di tengah, lingkaran uang kertas, glitter ungu, dan wrapping hitam-abu.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Mawar ungu + hiasan kupu-kupu", "Glitter ungu", "Wrapping hitam-abu + pita"],
-    foto: "assets/products/23.jpg"
+    foto: "assets/products/23.jpg",
+    fotoLain: ["assets/products/23-2.jpg"]
   },
   {
     id: "26",
@@ -329,7 +332,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang dengan rangkaian mawar biru dan hiasan mahkota emas di tengah, lingkaran uang kertas, ruffle putih, dan pita biru.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Mawar biru artifisial", "Hiasan mahkota", "Wrapping putih + pita biru"],
-    foto: "assets/products/38.jpg"
+    foto: "assets/products/38.jpg",
+    fotoLain: ["assets/products/38-2.jpg"]
   },
   {
     id: "39",
@@ -340,7 +344,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang dengan mawar pink di tengah, uang kertas biru di sekelilingnya, dan wrapping pink-lilac berpita pink.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Mawar pink artifisial", "Wrapping pink-lilac + pita"],
-    foto: "assets/products/39.jpg"
+    foto: "assets/products/39.jpg",
+    fotoLain: ["assets/products/39-2.jpg"]
   },
   {
     id: "40",
@@ -362,7 +367,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang dengan tiga mawar pink di tengah, lipatan uang kertas dan ruffle putih, dalam wrapping biru berpita pink.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Mawar pink artifisial", "Wrapping biru + pita pink"],
-    foto: "assets/products/41.jpg"
+    foto: "assets/products/41.jpg",
+    fotoLain: ["assets/products/41-2.jpg"]
   },
   {
     id: "42",
@@ -406,7 +412,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang elegan dengan mawar hitam di tengah, kelopak dari uang kertas, dan wrapping hitam berpita putih.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Mawar hitam", "Wrapping hitam + pita putih"],
-    foto: "assets/products/45.jpg"
+    foto: "assets/products/45.jpg",
+    fotoLain: ["assets/products/45-2.jpg"]
   },
   {
     id: "46",
@@ -428,7 +435,8 @@ const PRODUCTS = [
     ukuran: "Ukuran: xx cm",
     deskripsi: "Bucket uang dengan susunan uang kertas berbentuk bunga, dikelilingi bunga ungu dan kuning, dalam wrapping lilac bertumpuk.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Bunga artifisial ungu & kuning", "Wrapping lilac + pita ungu"],
-    foto: "assets/products/47.jpg"
+    foto: "assets/products/47.jpg",
+    fotoLain: ["assets/products/47-2.jpg"]
   },
   {
     id: "48",

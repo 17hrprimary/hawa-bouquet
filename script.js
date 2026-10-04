@@ -156,6 +156,9 @@
     card.appendChild(media(p, "card-m"));
     const no = document.createElement("span"); no.className = "card-no" + (p._list !== "main" ? " promo-no" : ""); no.textContent = p._label;
     card.appendChild(no);
+    // [SLIDER MULTI-FOTO] badge "2 foto" di kartu
+    const nFoto = (p.foto ? 1 : 0) + (p.fotoLain || []).length;
+    if (nFoto > 1) { const b = document.createElement("span"); b.className = "card-multi"; b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="3" width="14" height="14" rx="1"/><path d="M3 7v14h14"/></svg>' + nFoto + " foto"; card.appendChild(b); }
     const body = document.createElement("div");
     body.className = "card-body";
     body.innerHTML =
@@ -245,6 +248,52 @@
   }
   selectTab(NATARU.length ? "nataru" : PROMO.length ? "promo" : "main");
 
+
+  // ---------- [SLIDER MULTI-FOTO] Galeri multi-sudut di popup detail ----------
+  // Aktif bila produk punya `fotoLain: [...]` di products.js. Produk tanpa fotoLain tetap pakai media() biasa.
+  const photosOf = p => p.foto ? [p.foto].concat(p.fotoLain || []) : [];
+  function gallery(p) {
+    const srcs = photosOf(p);
+    if (srcs.length < 2) return media(p, "modal-m");
+    const g = document.createElement("div");
+    g.className = "gallery";
+    g.innerHTML =
+      '<div class="media modal-m g-viewport"><div class="g-track"></div>' +
+      '<span class="g-count" aria-live="polite"></span>' +
+      '<button class="g-arrow g-prev" type="button" aria-label="Foto sebelumnya">‹</button>' +
+      '<button class="g-arrow g-next" type="button" aria-label="Foto berikutnya">›</button>' +
+      '<div class="g-dots"></div></div>' +
+      '<div class="g-thumbs"><span class="g-hint">‹ Geser untuk lihat sudut lain ›</span></div>';
+    const track = g.querySelector(".g-track"), dots = g.querySelector(".g-dots"), thumbs = g.querySelector(".g-thumbs"), count = g.querySelector(".g-count");
+    srcs.forEach((src, i) => {
+      const slide = document.createElement("div"); slide.className = "g-slide";
+      const img = new Image(); img.alt = p.nama + " — foto " + (i + 1); img.decoding = "async"; img.src = src;
+      if (i) img.loading = "lazy";
+      slide.appendChild(img); track.appendChild(slide);
+      const d = document.createElement("button"); d.type = "button"; d.className = "g-dot"; d.setAttribute("aria-label", "Foto " + (i + 1)); d.onclick = () => go(i); dots.appendChild(d);
+      const t = document.createElement("button"); t.type = "button"; t.className = "g-thumb"; t.setAttribute("aria-label", "Lihat foto " + (i + 1));
+      t.innerHTML = '<img src="' + src + '" alt="" loading="lazy">'; t.onclick = () => go(i); thumbs.insertBefore(t, thumbs.querySelector(".g-hint"));
+    });
+    let idx = 0;
+    function mark(i) {
+      idx = i;
+      count.textContent = (i + 1) + " / " + srcs.length;
+      [dots, thumbs].forEach(c => [...c.querySelectorAll('.g-dot,.g-thumb')].forEach((el, j) => el.classList.toggle("on", j === i)));
+      g.querySelector(".g-prev").disabled = i === 0;
+      g.querySelector(".g-next").disabled = i === srcs.length - 1;
+      if (i > 0) g.classList.add("seen");
+    }
+    function go(i) { i = Math.max(0, Math.min(srcs.length - 1, i)); track.scrollTo({ left: i * track.clientWidth, behavior: "smooth" }); mark(i); }
+    // Geser jari = scroll-snap bawaan browser; posisi dibaca dari scroll.
+    let raf; track.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { const i = Math.round(track.scrollLeft / track.clientWidth); if (i !== idx) mark(i); }); }, { passive: true });
+    g.querySelector(".g-prev").onclick = e => { e.stopPropagation(); go(idx - 1); };
+    g.querySelector(".g-next").onclick = e => { e.stopPropagation(); go(idx + 1); };
+    g._go = go; g._idx = () => idx; g._n = srcs.length;
+    mark(0);
+    return g;
+  }
+  // ---------- [/SLIDER MULTI-FOTO] ----------
+
   // ---------- Detail modal ----------
   const modal = $("#modal");
   let cur = null;
@@ -253,7 +302,7 @@
     const p = ALL.find(x => x._slug === slug);
     if (!p) return;
     cur = p;
-    const mm = $("#modalMedia"); mm.innerHTML = ""; mm.appendChild(media(p, "modal-m"));
+    const mm = $("#modalMedia"); mm.innerHTML = ""; mm.appendChild(gallery(p));   // [SLIDER MULTI-FOTO] dulu: media(p, "modal-m")
     $("#mKategori").textContent = (p.kategori || "") + " · " + p._label + (p._list !== "main" ? " · " + LIST_NAME[p._list] : "");
     $("#mNama").textContent = p.nama;
     $("#mHarga").textContent = priceOf(p); $("#mHarga").classList.toggle("ask", isAsk(p));

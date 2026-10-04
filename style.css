@@ -287,7 +287,7 @@ b,strong{font-weight:500}
    Fixed layer painted above section backgrounds but below all text/content,
    so it stays visible on both light and dark sections without hurting legibility. */
 body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:url("assets/bg/hawa-cutout.webp?v=20261004193458") 38% bottom/auto 96vh no-repeat;opacity:.10}
+  background:url("assets/bg/hawa-cutout.webp?v=20261004194856") 38% bottom/auto 96vh no-repeat;opacity:.10}
 @media (max-width:800px){ body::before{background-position:center bottom;background-size:auto 78vh} }
 .hero>*,.occasions>*,.section>*,.footer>*,.pp>*{position:relative;z-index:2}
 .catalog>.anchor{position:absolute;z-index:0}
@@ -347,3 +347,31 @@ body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
 .lb-count{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);color:#d9cfe2;font-family:Jost,sans-serif;font-size:.8rem;letter-spacing:.2em}
 @media (max-width:640px){ .testi-grid{columns:2;column-gap:.7rem} .tcard{margin-bottom:.7rem;padding:.3rem} .tzoom{font-size:.52rem;right:.5rem;bottom:.5rem} .lb-stage{padding:3.6rem .6rem 3rem} .lb-nav{top:auto;bottom:.6rem;transform:none;width:44px;height:44px;font-size:1.8rem} }
 @media (max-width:1100px) and (min-width:901px){ .nav-links{gap:.7rem;font-size:.62rem;letter-spacing:.05em} .nav-links .btn-sm{padding:.45rem .65rem} }
+
+/* ---------- [SLIDER MULTI-FOTO] galeri multi-sudut di popup detail ---------- */
+.gallery{display:flex;flex-direction:column;min-width:0;background:#fff}
+.g-viewport{position:relative}
+.g-track{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.g-track::-webkit-scrollbar{display:none}
+.g-slide{flex:0 0 100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always}
+.g-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.g-count{position:absolute;top:.9rem;left:.9rem;z-index:2;background:rgba(36,17,48,.62);backdrop-filter:blur(4px);color:#fff;font-family:Jost,system-ui,sans-serif;font-size:.7rem;letter-spacing:.18em;padding:.3rem .7rem;border:1px solid rgba(200,178,138,.45)}
+.g-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.7);background:rgba(36,17,48,.45);backdrop-filter:blur(4px);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 3px;transition:.25s}
+.g-arrow:hover{background:var(--plum)}
+.g-arrow:disabled{opacity:0;pointer-events:none}
+.g-prev{left:.7rem}.g-next{right:.7rem}
+.g-dots{position:absolute;left:50%;bottom:.9rem;transform:translateX(-50%);z-index:2;display:flex;gap:.45rem;background:rgba(36,17,48,.4);backdrop-filter:blur(4px);padding:.4rem .6rem;border-radius:999px}
+.g-dot{width:7px;height:7px;border-radius:999px;border:0;padding:0;background:rgba(255,255,255,.55);cursor:pointer;transition:.3s}
+.g-dot.on{width:20px;background:var(--champ,#c8b28a)}
+.g-hint{margin-left:auto;align-self:center;color:var(--plum);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;transition:opacity .4s;text-align:right}
+.gallery.seen .g-hint{opacity:.45}
+.g-thumbs{display:flex;gap:.5rem;padding:.6rem .9rem;background:var(--mist);border-bottom:1px solid var(--lav-soft)}
+.g-thumb{width:52px;height:64px;padding:0;border:1px solid var(--lav-soft);background:#fff;cursor:pointer;opacity:.6;transition:.25s;overflow:hidden}
+.g-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.g-thumb.on{opacity:1;border-color:var(--plum);box-shadow:0 0 0 1px var(--plum)}
+.gallery .modal-m{min-height:0;flex:1}
+@media (min-width:901px){.gallery .modal-m{min-height:500px}}
+@media (max-width:900px){.gallery .modal-m{flex:none}}
+.card-multi{position:absolute;top:1rem;right:1rem;z-index:2;display:inline-flex;align-items:center;gap:.3rem;background:rgba(36,17,48,.6);backdrop-filter:blur(4px);color:#fff;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.25rem .55rem}
+.card-multi svg{width:12px;height:12px}
+/* ---------- [/SLIDER MULTI-FOTO] ---------- */
