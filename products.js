@@ -572,8 +572,9 @@ const PRODUCTS = [
   }
 ];
 
-// ---------- PROMO RAMADAN — menu terpisah. Tambah item baru dengan id "ramadan-18", kode "R18", dst. ----------
+// ---------- PAKET RAMADAN — menu terpisah. Tambah item baru dengan id "ramadan-18", kode "R18", dst. ----------
 // Link: index.html#ramadan-01, halaman: p/ramadan-01.html. Foto: assets/ramadan/
+// Item kategori "Paket Sembako" (Ramadan & Natal) otomatis tampil di menu utama "Paket Sembako", bukan di Special Edition.
 const PROMO_KATEGORI = ["Semua", "Parcel Lebaran", "Paket Sembako"];
 const PROMO_RAMADAN = [
   {
@@ -782,7 +783,7 @@ const PROMO_RAMADAN = [
   }
 ];
 
-// ---------- PROMO NATAL & TAHUN BARU — menu terpisah. Tambah item: id "nataru-04", kode "N04", dst. ----------
+// ---------- PAKET NATAL & TAHUN BARU — menu terpisah. Tambah item: id "nataru-04", kode "N04", dst. ----------
 // Link: index.html#nataru-01, halaman: p/nataru-01.html. Foto: assets/nataru/
 const NATARU_KATEGORI = ["Semua", "Parcel Natal", "Paket Sembako"];
 const PROMO_NATARU = [

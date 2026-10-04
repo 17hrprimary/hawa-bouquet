@@ -25,15 +25,20 @@
   });
   document.querySelectorAll("[data-tiktok]").forEach(a => { if (SHOP.tiktokUrl) a.href = SHOP.tiktokUrl; });
 
-  // ---------- Lists: main collection + Promo Ramadan ----------
+  // ---------- Lists: main collection + Paket Ramadan ----------
   const PROMO = typeof PROMO_RAMADAN !== "undefined" ? PROMO_RAMADAN : [];
   PRODUCTS.forEach(p => { p._slug = "produk-" + p.id; p._label = "No. " + p.id; p._page = p.id; p._list = "main"; });
   PROMO.forEach(p => { p._slug = p.id; p._label = p.kode || p.id; p._page = p.id; p._list = "promo"; });
   const NATARU = typeof PROMO_NATARU !== "undefined" ? PROMO_NATARU : [];
   NATARU.forEach(p => { p._slug = p.id; p._label = p.kode || p.id; p._page = p.id; p._list = "nataru"; });
   const ALL = PRODUCTS.concat(PROMO, NATARU);
-  const LIST_NAME = { main: "Koleksi Bucket Gift", promo: "Promo Ramadan", nataru: "Promo Natal & Tahun Baru" };
-  const LIST_HASH = { main: "#koleksi", promo: "#promo-ramadan", nataru: "#promo-nataru" };
+  const LIST_NAME = { main: "Koleksi Bucket Gift", promo: "Paket Ramadan", nataru: "Paket Natal & Tahun Baru" };
+  const LIST_HASH = { main: "#koleksi", promo: "#paket-ramadan", nataru: "#paket-nataru" };
+  // [PAKET SEMBAKO] sembako dari Natal & Ramadan digabung jadi 1 menu utama (tema ungu biasa)
+  const SEMBAKO_CAT = "Paket Sembako";
+  const isSembako = p => p._list !== "main" && p.kategori === SEMBAKO_CAT;
+  const SEMBAKO = NATARU.concat(PROMO).filter(isSembako);
+  const hashOf = p => isSembako(p) ? "#paket-sembako" : (LIST_HASH[p._list] || "#koleksi");
 
   // ---------- Share links ----------
   // Default: absolute link to this page + #produk-NN / #ramadan-NN (location.origin + path).
@@ -108,28 +113,30 @@
     return photoOk[p.foto];
   }
   const mainCats = (typeof KATEGORI !== "undefined" ? KATEGORI : ["Semua"]).filter(k => k !== "Semua");
-  const promoCats = (typeof PROMO_KATEGORI !== "undefined" ? PROMO_KATEGORI : ["Semua"]).filter(k => k !== "Semua");
+  const promoCats = (typeof PROMO_KATEGORI !== "undefined" ? PROMO_KATEGORI : ["Semua"]).filter(k => k !== "Semua" && k !== SEMBAKO_CAT);
   const TABS = [];
   // Natal & Tahun Baru first (default tab on first load)
   if (NATARU.length) {
-    const nCats = (typeof NATARU_KATEGORI !== "undefined" ? NATARU_KATEGORI : ["Semua"]).filter(k => k !== "Semua");
-    TABS.push({ key: "nataru", list: "nataru", cat: null, label: "Promo Natal & Tahun Baru", group: true, promo: true, star: true, eyebrow: "Edisi Spesial" });
-    nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Promo Natal & Tahun Baru" }));
+    const nCats = (typeof NATARU_KATEGORI !== "undefined" ? NATARU_KATEGORI : ["Semua"]).filter(k => k !== "Semua" && k !== SEMBAKO_CAT);
+    TABS.push({ key: "nataru", list: "nataru", cat: null, label: "Paket Natal & Tahun Baru", group: true, promo: true, star: true, eyebrow: "Edisi Spesial" });
+    if (nCats.length > 1) nCats.forEach(c => TABS.push({ key: "nataru:" + c, list: "nataru", cat: c, label: c, promo: true, eyebrow: "Paket Natal & Tahun Baru" }));
   }
   TABS.push({ key: "main", list: "main", cat: null, label: "Koleksi Bucket Gift", group: true, eyebrow: "Koleksi" });
   mainCats.forEach(c => TABS.push({ key: "main:" + c, list: "main", cat: c, label: c, eyebrow: "Koleksi Bucket Gift" }));
+  if (SEMBAKO.length) TABS.push({ key: "sembako", list: "sembako", cat: null, label: "Paket Sembako", group: true, eyebrow: "Paket" });
   if (PROMO.length) {
-    TABS.push({ key: "promo", list: "promo", cat: null, label: "Promo Ramadan", group: true, promo: true, eyebrow: "Edisi Spesial" });
-    promoCats.forEach(c => TABS.push({ key: "promo:" + c, list: "promo", cat: c, label: c, promo: true, eyebrow: "Promo Ramadan" }));
+    TABS.push({ key: "promo", list: "promo", cat: null, label: "Paket Ramadan", group: true, promo: true, eyebrow: "Edisi Spesial" });
+    if (promoCats.length > 1) promoCats.forEach(c => TABS.push({ key: "promo:" + c, list: "promo", cat: c, label: c, promo: true, eyebrow: "Paket Ramadan" }));
   }
   const VIDEOS = typeof VIDEO_REVIEW !== "undefined" ? VIDEO_REVIEW : [];
   if (VIDEOS.length) TABS.push({ key: "video", list: "video", cat: null, label: "Video Review", group: true, promo: true, icon: "▶", eyebrow: "Testimoni" });
   const TESTI = typeof TESTIMONI !== "undefined" ? TESTIMONI : [];
   if (TESTI.length) TABS.push({ key: "testi", list: "testi", cat: null, label: "Testimoni", title: "Kata Pelanggan Hawa Bouquet", group: true, promo: true, icon: "♡", eyebrow: "Testimoni" });
-  const listOf = name => name === "promo" ? PROMO : name === "nataru" ? NATARU : PRODUCTS;
+  const listOf = name => name === "sembako" ? SEMBAKO : name === "promo" ? PROMO.filter(p => !isSembako(p)) : name === "nataru" ? NATARU.filter(p => !isSembako(p)) : PRODUCTS;
+  const listKeyOf = p => isSembako(p) ? "sembako" : p._list;
   const itemsOf = t => (t.list === "video" || t.list === "testi") ? [] : listOf(t.list).filter(p => !t.cat || p.kategori === t.cat);
   const catList = $("#catList"), spList = $("#spList"), catSide = $(".cat-side"), grid = $("#catGrid"), empty = $("#catEmpty");
-  // [SPECIAL EDITION] Natal & Tahun Baru (merah) + Promo Ramadan (hijau) di baris atas; sub-tab tampil hanya untuk edisi yang aktif
+  // [SPECIAL EDITION] Paket Natal & Tahun Baru (merah) + Paket Ramadan (hijau) di baris atas; sub-tab tampil hanya untuk edisi yang aktif
   const isSpecial = t => t.list === "nataru" || t.list === "promo";
   let activeTab = null, visible = [], renderSeq = 0;
 
@@ -380,7 +387,7 @@
     document.body.style.overflow = "hidden";
   }
   function step(d) {
-    const list = visible.includes(cur) ? visible : listOf(cur._list);
+    const list = visible.includes(cur) ? visible : listOf(listKeyOf(cur));
     const i = list.indexOf(cur);
     openProduct(list[(i + d + list.length) % list.length]._slug, "replace");
   }
@@ -400,7 +407,7 @@
     if (!modal.classList.contains("open")) return;
     const p = cur; hideModal();
     if (isOv("modal")) consumeEntry("modal");
-    else if (p) hist("replace", { ov: null }, cleanUrl(LIST_HASH[p._list] || "#koleksi"));
+    else if (p) hist("replace", { ov: null }, cleanUrl(hashOf(p)));
   }
   modal.querySelectorAll("[data-close]").forEach(el => el.onclick = closeModal);
   $("#mPrev").onclick = () => step(-1);
@@ -419,11 +426,11 @@
     let slug = null;
     if (/^(produk|ramadan|nataru)-\d+$/.test(h)) slug = h;
     else if (q) slug = /^(ramadan|nataru)-\d+$/i.test(q) ? q.toLowerCase() : /^r\d+$/i.test(q) ? "ramadan-" + q.slice(1).padStart(2, "0") : /^n\d+$/i.test(q) ? "nataru-" + q.slice(1).padStart(2, "0") : "produk-" + String(q).padStart(2, "0");
-    const listHash = { koleksi: "main", "promo-ramadan": "promo", "promo-nataru": "nataru", "video-review": "video", testimoni: "testi" };
+    const listHash = { koleksi: "main", "paket-ramadan": "promo", "paket-nataru": "nataru", "paket-sembako": "sembako", "promo-ramadan": "promo", "promo-nataru": "nataru", "video-review": "video", testimoni: "testi" };
     if (listHash[h]) { hideModal(); lbHide(); selectTab(listHash[h]); return; }
     if (slug) {
       const p = ALL.find(x => x._slug === slug);
-      if (p && (!activeTab || activeTab.list !== p._list || (activeTab.cat && activeTab.cat !== p.kategori))) selectTab(p._list);
+      if (p && (!activeTab || activeTab.list !== listKeyOf(p) || (activeTab.cat && activeTab.cat !== p.kategori))) selectTab(listKeyOf(p));
       return p;
     }
     else if (modal.classList.contains("open")) closeModal();
@@ -459,7 +466,7 @@
       if (st.hb && st.ov === "modal") openProduct(p._slug, "replace");   // muat ulang saat popup terbuka: entri dasar sudah ada di bawahnya
       else {
         // Dibuka langsung via deep link: buat entri dasar (katalog) dulu, lalu entri popup -> Back menutup popup, bukan keluar situs
-        hist("replace", { ov: null }, cleanUrl(LIST_HASH[p._list] || "#koleksi"));
+        hist("replace", { ov: null }, cleanUrl(hashOf(p)));
         openProduct(p._slug, "push");
       }
     } else hist("replace", { ov: null });
