@@ -216,8 +216,10 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(center);
     $("#catEyebrow").textContent = t.eyebrow;
     $("#catTitle").textContent = t.title || t.label;
-    $("#katalog").classList.toggle("promo-mode", t.list !== "main");
-    $("#katalog").classList.toggle("nataru-mode", t.list === "nataru");
+    // Tema katalog: semua kategori gelap (ungu premium); Natal = merah + dekor Natal; Ramadan = hijau-ungu + dekor Ramadan
+    const kat = $("#katalog"), theme = t.list === "nataru" ? "natal" : t.list === "promo" ? "ramadan" : "purple";
+    kat.classList.add("promo-mode");
+    ["natal", "ramadan", "purple"].forEach(n => kat.classList.toggle("theme-" + n, n === theme));
     const seq = ++renderSeq, items = itemsOf(t);
     grid.innerHTML = ""; empty.hidden = true; $("#catCount").textContent = "";
     const vp = $("#videoPanel"), isVid = t.list === "video";
