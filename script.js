@@ -222,12 +222,36 @@
       g.appendChild(f);
     });
   }
+  // ---------- Riwayat (tombol Back HP): setiap popup = 1 entri history ----------
+  // state: { hb: 1, ov: null } = tampilan katalog; { hb: 1, ov: "modal", slug } / { hb: 1, ov: "lb", i } = popup terbuka
+  let curHash = location.hash, skipHash = null, pendingBack = false;
+  const isOv = ov => !!(history.state && history.state.ov === ov);
+  function hist(mode, st, url) {
+    const s = Object.assign({ hb: 1 }, st);
+    if (mode === "push") history.pushState(s, "", url || location.href);
+    else history.replaceState(s, "", url || location.href);
+    curHash = location.hash;
+  }
+  // Popup ditutup lewat X/latar/Esc: mundur 1 entri supaya tidak ada entri sisa (popstate berikutnya diabaikan)
+  function consumeEntry(ov) { if (isOv(ov)) { pendingBack = true; history.back(); } }
+
   // ---------- Testimoni grid + lightbox ----------
-  let lbIdx = 0;
+  let lbIdx = 0, lbScrollY = 0;
   const lb = $("#lightbox"), lbImg = $("#lbImg");
-  function lbShow(i) { lbIdx = (i + TESTI.length) % TESTI.length; lbImg.src = TESTI[lbIdx].foto; lbImg.alt = "Testimoni pelanggan " + (lbIdx + 1); $("#lbCount").textContent = (lbIdx + 1) + " / " + TESTI.length; }
-  function lbOpen(i) { lbShow(i); lb.hidden = false; document.body.style.overflow = "hidden"; $("#lbClose").focus(); }
-  function lbClose() { lb.hidden = true; document.body.style.overflow = ""; lbImg.removeAttribute("src"); }
+  function lbShow(i) {
+    lbIdx = (i + TESTI.length) % TESTI.length; lbImg.src = TESTI[lbIdx].foto; lbImg.alt = "Testimoni pelanggan " + (lbIdx + 1); $("#lbCount").textContent = (lbIdx + 1) + " / " + TESTI.length;
+    if (!lb.hidden && isOv("lb")) hist("replace", { ov: "lb", i: lbIdx });   // geser foto: tidak menambah entri riwayat
+  }
+  // mode: "push" (default, buka baru) | "none" (dari tombol Back/Forward)
+  function lbOpen(i, mode) {
+    const wasOpen = !lb.hidden;
+    if (!wasOpen) lbScrollY = window.scrollY;
+    lb.hidden = false; lbShow(i); document.body.style.overflow = "hidden"; $("#lbClose").focus();
+    if (mode !== "none" && !wasOpen) hist("push", { ov: "lb", i: lbIdx });
+  }
+  function lbHide() { if (lb.hidden) return; lb.hidden = true; document.body.style.overflow = ""; lbImg.removeAttribute("src"); const y = lbScrollY; window.scrollTo(0, y); requestAnimationFrame(() => window.scrollTo(0, y)); }
+  // Tutup oleh pengguna (X / latar / Esc): sembunyikan + buang entri riwayat popup
+  function lbClose() { if (lb.hidden) return; lbHide(); consumeEntry("lb"); }
   $("#lbClose").onclick = lbClose;
   $("#lbPrev").onclick = e => { e.stopPropagation(); lbShow(lbIdx - 1); };
   $("#lbNext").onclick = e => { e.stopPropagation(); lbShow(lbIdx + 1); };
@@ -296,11 +320,15 @@
 
   // ---------- Detail modal ----------
   const modal = $("#modal");
-  let cur = null;
-  function setHash(h) { history.replaceState(null, "", location.pathname + location.search.replace(/([?&])p=[\w-]+&?/, "$1").replace(/[?&]$/, "") + h); }
-  function openProduct(slug) {
+  let cur = null, openedSlug = null, openScrollY = 0;
+  const cleanUrl = h => location.pathname + location.search.replace(/([?&])p=[\w-]+&?/, "$1").replace(/[?&]$/, "") + h;
+  // mode: "push" (buka baru: tambah entri) | "replace" (prev/next, atau entri sudah dibuat oleh hashchange) | "none" (Back/Forward)
+  function openProduct(slug, mode) {
     const p = ALL.find(x => x._slug === slug);
     if (!p) return;
+    const wasOpen = modal.classList.contains("open");
+    if (!wasOpen) { openedSlug = slug; openScrollY = window.scrollY; }
+    if (!mode) mode = wasOpen ? "replace" : "push";
     cur = p;
     const mm = $("#modalMedia"); mm.innerHTML = ""; mm.appendChild(gallery(p));   // [SLIDER MULTI-FOTO] dulu: media(p, "modal-m")
     $("#mKategori").textContent = (p.kategori || "") + " · " + p._label + (p._list !== "main" ? " · " + LIST_NAME[p._list] : "");
@@ -315,20 +343,32 @@
     $("#mCopy").onclick = () => copyLink(p);
     $("#mShareWa").onclick = () => shareWa(p);
     document.title = p.nama + " — " + SHOP.nama;
-    if (location.hash !== "#" + p._slug) setHash("#" + p._slug);
+    if (mode !== "none") hist(mode, { ov: "modal", slug: p._slug }, cleanUrl("#" + p._slug));
     modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
   }
   function step(d) {
     const list = visible.includes(cur) ? visible : listOf(cur._list);
     const i = list.indexOf(cur);
-    openProduct(list[(i + d + list.length) % list.length]._slug);
+    openProduct(list[(i + d + list.length) % list.length]._slug, "replace");
   }
-  function closeModal() {
+  // Sembunyikan popup & kembalikan posisi katalog (tab tetap, posisi gulir sama)
+  function hideModal() {
+    if (!modal.classList.contains("open")) return;
     modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = ""; document.title = SHOP.nama + " — Bucket Gift & Hampers";
-    if (cur) { const c = document.getElementById("kartu-" + cur._slug); setHash(LIST_HASH[cur._list] || "#koleksi"); if (c) c.scrollIntoView({ block: "center" }); }
+    // Produk sama seperti saat dibuka -> posisi gulir semula; setelah prev/next -> gulir ke kartu produk terakhir
+    const c = cur && cur._slug !== openedSlug ? document.getElementById("kartu-" + cur._slug) : null, y = openScrollY;
+    const restore = () => { if (c) c.scrollIntoView({ block: "center" }); else window.scrollTo(0, y); };
+    restore(); requestAnimationFrame(restore);
     cur = null;
+  }
+  // Tutup oleh pengguna (X / latar / Esc)
+  function closeModal() {
+    if (!modal.classList.contains("open")) return;
+    const p = cur; hideModal();
+    if (isOv("modal")) consumeEntry("modal");
+    else if (p) hist("replace", { ov: null }, cleanUrl(LIST_HASH[p._list] || "#koleksi"));
   }
   modal.querySelectorAll("[data-close]").forEach(el => el.onclick = closeModal);
   $("#mPrev").onclick = () => step(-1);
@@ -348,18 +388,50 @@
     if (/^(produk|ramadan|nataru)-\d+$/.test(h)) slug = h;
     else if (q) slug = /^(ramadan|nataru)-\d+$/i.test(q) ? q.toLowerCase() : /^r\d+$/i.test(q) ? "ramadan-" + q.slice(1).padStart(2, "0") : /^n\d+$/i.test(q) ? "nataru-" + q.slice(1).padStart(2, "0") : "produk-" + String(q).padStart(2, "0");
     const listHash = { koleksi: "main", "promo-ramadan": "promo", "promo-nataru": "nataru", "video-review": "video", testimoni: "testi" };
-    if (listHash[h]) { if (modal.classList.contains("open")) { modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; cur = null; } selectTab(listHash[h]); return; }
+    if (listHash[h]) { hideModal(); lbHide(); selectTab(listHash[h]); return; }
     if (slug) {
       const p = ALL.find(x => x._slug === slug);
       if (p && (!activeTab || activeTab.list !== p._list || (activeTab.cat && activeTab.cat !== p.kategori))) selectTab(p._list);
-      openProduct(slug);
+      return p;
     }
     else if (modal.classList.contains("open")) closeModal();
   }
-  window.addEventListener("hashchange", route);
+  window.addEventListener("hashchange", () => {
+    if (skipHash !== null && location.hash === skipHash) { skipHash = null; curHash = location.hash; return; }   // sudah ditangani popstate
+    skipHash = null;
+    const p = route();
+    // Hash produk diketik/diklik sebagai link: browser sudah membuat entri baru -> tandai entri itu sebagai popup (tanpa push lagi)
+    if (p) openProduct(p._slug, "replace");
+    curHash = location.hash;
+  });
+  window.addEventListener("popstate", e => {
+    const st = e.state || {}, hashChanged = location.hash !== curHash;
+    curHash = location.hash;
+    let handled = false;
+    if (pendingBack) { pendingBack = false; handled = true; }   // entri sisa dari tutup via X/Esc: popup sudah tertutup
+    else {
+      if (st.ov !== "modal" && modal.classList.contains("open")) { hideModal(); handled = true; }
+      if (st.ov !== "lb" && !lb.hidden) { lbHide(); handled = true; }
+      if (st.ov === "modal" && st.slug && !modal.classList.contains("open")) { openProduct(st.slug, "none"); handled = true; }   // Forward
+      else if (st.ov === "lb" && lb.hidden && TESTI.length) { if (!activeTab || activeTab.list !== "testi") selectTab("testi"); lbOpen(st.i || 0, "none"); handled = true; }
+    }
+    if (handled && hashChanged) skipHash = location.hash;   // jangan biarkan hashchange memuat ulang tab (posisi gulir/tab tetap)
+  });
   // First load always opens photos: Video Review only opens after its tab/menu is clicked
   if (location.hash === "#video-review" || location.hash === "#testimoni") history.replaceState(null, "", location.pathname + location.search);
-  route();
+  curHash = location.hash;
+  {
+    const st = history.state || {};
+    const p = route();
+    if (p) {
+      if (st.hb && st.ov === "modal") openProduct(p._slug, "replace");   // muat ulang saat popup terbuka: entri dasar sudah ada di bawahnya
+      else {
+        // Dibuka langsung via deep link: buat entri dasar (katalog) dulu, lalu entri popup -> Back menutup popup, bukan keluar situs
+        hist("replace", { ov: null }, cleanUrl(LIST_HASH[p._list] || "#koleksi"));
+        openProduct(p._slug, "push");
+      }
+    } else hist("replace", { ov: null });
+  }
 
   // Mobile nav
   $(".nav-toggle").onclick = () => $(".nav-links").classList.toggle("show");
