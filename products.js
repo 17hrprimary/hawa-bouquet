@@ -462,13 +462,13 @@ const PRODUCTS = [
   },
   {
     id: "50",
-    nama: "Bucket Uang Happy Birthday Hitam Emas",
+    nama: "Buket Rokok Mix Uang Happy Birthday Hitam Emas",
     kategori: "Bucket Uang",
     harga: "",
     estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
     ukuran: "Ukuran: xx cm",
-    deskripsi: "Bucket ulang tahun jumbo dengan wrapping hitam bertumpuk dan pita satin emas besar, berisi lipatan uang kertas, kotak isian berpita emas, mawar merah, bunga kecil ungu-kuning, dan kartu \"Happy Birthday\".",
-    isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Kotak isian berpita emas (isi custom sesuai request)", "Mawar merah & bunga kecil artifisial", "Kartu \"Happy Birthday\"", "Wrapping hitam + pita satin emas"],
+    deskripsi: "Buket ulang tahun jumbo berisi rokok dan uang lipat, dengan wrapping hitam bertumpuk, pita satin emas besar, mawar merah, bunga kecil ungu-kuning, dan kartu \"Happy Birthday\". Khusus pengantaran langsung (tidak dikirim via ekspedisi).",
+    isi: ["Rokok (merk & jumlah sesuai request)", "Uang lipat (nominal sesuai request)", "Mawar merah & bunga kecil artifisial", "Kartu \"Happy Birthday\"", "Wrapping hitam + pita satin emas"],
     foto: "assets/products/50.jpg"
   },
   {
