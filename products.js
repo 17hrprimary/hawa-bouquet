@@ -461,6 +461,17 @@ const PRODUCTS = [
     foto: "assets/products/49.jpg"
   },
   {
+    id: "50",
+    nama: "Bucket Uang Happy Birthday Hitam Emas",
+    kategori: "Bucket Uang",
+    harga: "",
+    estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Bucket ulang tahun jumbo dengan wrapping hitam bertumpuk dan pita satin emas besar, berisi lipatan uang kertas, kotak isian berpita emas, mawar merah, bunga kecil ungu-kuning, dan kartu \"Happy Birthday\".",
+    isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Kotak isian berpita emas (isi custom sesuai request)", "Mawar merah & bunga kecil artifisial", "Kartu \"Happy Birthday\"", "Wrapping hitam + pita satin emas"],
+    foto: "assets/products/50.jpg"
+  },
+  {
     id: "11",
     nama: "Produk 11",
     kategori: "Bucket Bunga",
@@ -850,4 +861,4 @@ const VIDEO_REVIEW = [
 // =============================================================
 //  TESTIMONI — screenshot chat pelanggan di assets/testimoni/
 // =============================================================
-const TESTIMONI = Array.from({ length: 13 }, (_, i) => ({ foto: "assets/testimoni/testimoni-" + String(i + 1).padStart(2, "0") + ".webp" }));
+const TESTIMONI = Array.from({ length: 14 }, (_, i) => ({ foto: "assets/testimoni/testimoni-" + String(i + 1).padStart(2, "0") + ".webp" }));
