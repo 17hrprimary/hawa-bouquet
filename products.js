@@ -461,17 +461,6 @@ const PRODUCTS = [
     foto: "assets/products/49.jpg"
   },
   {
-    id: "50",
-    nama: "Buket Rokok Mix Uang Happy Birthday Hitam Emas",
-    kategori: "Bucket Uang",
-    harga: "",
-    estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
-    ukuran: "Ukuran: xx cm",
-    deskripsi: "Buket ulang tahun jumbo berisi rokok dan uang lipat, dengan wrapping hitam bertumpuk, pita satin emas besar, mawar merah, bunga kecil ungu-kuning, dan kartu \"Happy Birthday\". Khusus pengantaran langsung (tidak dikirim via ekspedisi).",
-    isi: ["Rokok (merk & jumlah sesuai request)", "Uang lipat (nominal sesuai request)", "Mawar merah & bunga kecil artifisial", "Kartu \"Happy Birthday\"", "Wrapping hitam + pita satin emas"],
-    foto: "assets/products/50.jpg"
-  },
-  {
     id: "11",
     nama: "Produk 11",
     kategori: "Bucket Bunga",
@@ -861,4 +850,4 @@ const VIDEO_REVIEW = [
 // =============================================================
 //  TESTIMONI — screenshot chat pelanggan di assets/testimoni/
 // =============================================================
-const TESTIMONI = Array.from({ length: 14 }, (_, i) => ({ foto: "assets/testimoni/testimoni-" + String(i + 1).padStart(2, "0") + ".webp" }));
+const TESTIMONI = Array.from({ length: 13 }, (_, i) => ({ foto: "assets/testimoni/testimoni-" + String(i + 1).padStart(2, "0") + ".webp" }));
