@@ -228,6 +228,9 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(center);
     $("#catEyebrow").textContent = t.eyebrow;
     $("#catTitle").textContent = t.title || t.label;
+    // [ANIMASI TRANSISI] judul kategori + panel video/testimoni muncul halus tiap ganti menu
+    const replay = el => { if (!el) return; el.classList.remove("cat-anim"); void el.offsetWidth; el.classList.add("cat-anim"); };
+    ["#catEyebrow", "#catTitle", "#videoPanel", "#testiPanel"].forEach(s => replay($(s)));
     // Tema katalog: semua kategori gelap (ungu premium); Natal = merah + dekor Natal; Ramadan = hijau-ungu + dekor Ramadan
     const kat = $("#katalog"), theme = t.list === "nataru" ? "natal" : t.list === "promo" ? "ramadan" : "purple";
     kat.classList.add("promo-mode");
@@ -244,7 +247,14 @@
       if (seq !== renderSeq) return;
       // Promo items always show; main items only when their photo exists
       visible = t.list !== "main" ? items : items.filter((p, i) => ok[i]);
-      visible.forEach(p => grid.appendChild(cardFor(p)));
+      // [ANIMASI TRANSISI] kartu produk muncul satu per satu (fade + naik), maks jeda 12 kartu
+      visible.forEach((p, i) => {
+        const c = cardFor(p);
+        c.style.setProperty("--i", Math.min(i, 12));
+        c.classList.add("card-in");
+        c.addEventListener("animationend", () => c.classList.remove("card-in"), { once: true });
+        grid.appendChild(c);
+      });
       empty.hidden = visible.length > 0;
       $("#catCount").textContent = visible.length ? visible.length + " produk" : "";
     });

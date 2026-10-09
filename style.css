@@ -129,6 +129,12 @@ b,strong{font-weight:500}
 .modal-backdrop{position:absolute;inset:0;background:rgba(20,8,28,.7);backdrop-filter:blur(4px)}
 .modal-box{position:relative;background:#fff;max-width:1040px;width:100%;max-height:94vh;overflow:auto;display:grid;grid-template-columns:1.15fr 1fr;animation:pop .35s ease;box-shadow:0 40px 80px rgba(10,0,20,.45)}
 @keyframes pop{from{transform:translateY(12px);opacity:0}}
+/* [ANIMASI TRANSISI] ganti menu jenis produk: kartu muncul bergiliran, judul & panel fade-in */
+.card.card-in{animation:cardIn .55s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i,0) * 55ms)}
+@keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.97)}}
+.cat-anim{animation:catFade .45s ease backwards}
+@keyframes catFade{from{opacity:0;transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){.card.card-in,.cat-anim{animation:none}}
 .modal-close{position:absolute;top:.8rem;right:.8rem;z-index:3;background:rgba(255,255,255,.92);border:0;width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer;color:var(--deep)}
 .modal-m{height:100%;min-height:560px}
 .modal-body{padding:2.6rem 2.4rem;display:flex;flex-direction:column;gap:.7rem}
