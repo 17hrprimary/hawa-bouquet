@@ -149,6 +149,21 @@
     b.onclick = () => { selectTab(t.key); };
     (isSpecial(t) ? spList : catList).appendChild(b);
   });
+  // [ANIMASI SIDEBAR] sorotan menu aktif meluncur halus dari menu lama ke menu baru
+  const catInd = document.createElement("span");
+  catInd.className = "cat-ind"; catInd.setAttribute("aria-hidden", "true");
+  catList.appendChild(catInd);
+  function moveInd() {
+    const a = catList.querySelector(".cat-tab.active");
+    if (!a) { catInd.style.opacity = 0; return; }
+    catInd.style.opacity = 1;
+    catInd.style.width = a.offsetWidth + "px";
+    catInd.style.height = a.offsetHeight + "px";
+    catInd.style.transform = "translate(" + a.offsetLeft + "px," + a.offsetTop + "px)";
+  }
+  // ukuran tab bisa berubah (huruf tebal aktif, font selesai dimuat) — sorotan ikut menyesuaikan
+  if (window.ResizeObserver) { const ro = new ResizeObserver(() => moveInd()); catList.querySelectorAll(".cat-tab").forEach(b => ro.observe(b)); }
+  window.addEventListener("resize", () => { catInd.classList.remove("ready"); moveInd(); requestAnimationFrame(() => catInd.classList.add("ready")); });
   // Badges: count of items with photos; "Segera" if none yet
   TABS.forEach(t => {
     if (t.list === "testi") { catSide.querySelector('[data-key="testi"] [data-badge]').textContent = TESTI.length; return; }
@@ -219,8 +234,19 @@
       b.classList.toggle("active", on); b.setAttribute("aria-selected", on);
       // keep parent group highlighted when a sub-item is active
       b.classList.toggle("parent-active", !on && b.dataset.key === t.list);
-      if (b.classList.contains("sp-tab") && b.classList.contains("cat-sub")) b.hidden = b.dataset.list !== t.list;
+      if (b.classList.contains("sp-tab") && b.classList.contains("cat-sub")) {
+        const wasHidden = b.hidden;
+        b.hidden = b.dataset.list !== t.list;
+        // [ANIMASI SIDEBAR] sub-menu edisi spesial muncul bergiliran saat dibuka
+        if (wasHidden && !b.hidden) {
+          b.style.setProperty("--i", [...spList.querySelectorAll('.cat-sub[data-list="' + t.list + '"]')].indexOf(b));
+          b.classList.remove("cat-reveal"); void b.offsetWidth; b.classList.add("cat-reveal");
+        }
+      }
     });
+    moveInd();
+    if (!catInd.classList.contains("ready")) requestAnimationFrame(() => requestAnimationFrame(() => catInd.classList.add("ready")));
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInd);
     spList.classList.toggle("sp-on", isSpecial(t));
     const centerIn = bar => { const a = bar.querySelector(".cat-tab.active"); if (a && window.matchMedia("(max-width: 800px)").matches) bar.scrollLeft += a.getBoundingClientRect().left - bar.getBoundingClientRect().left - (bar.clientWidth - a.offsetWidth) / 2; };
     const center = () => { if (isSpecial(t)) { centerIn(spList); catList.scrollLeft = 0; } else { centerIn(catList); spList.scrollLeft = 0; } };

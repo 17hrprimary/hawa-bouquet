@@ -134,7 +134,21 @@ b,strong{font-weight:500}
 @keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.97)}}
 .cat-anim{animation:catFade .45s ease backwards}
 @keyframes catFade{from{opacity:0;transform:translateY(8px)}}
-@media (prefers-reduced-motion:reduce){.card.card-in,.cat-anim{animation:none}}
+/* [ANIMASI SIDEBAR] sorotan menu aktif meluncur antar menu */
+.cat-list>.cat-tab{position:relative;z-index:1}
+.cat-ind{position:absolute;left:0;top:0;z-index:0;pointer-events:none;opacity:0}
+.cat-ind.ready{transition:transform .45s cubic-bezier(.65,0,.35,1),width .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),opacity .3s ease}
+@media (min-width:801px){
+  .catalog .cat-ind{border-left:2px solid var(--champ);background:linear-gradient(90deg,rgba(200,178,138,.24),transparent)}
+  .catalog .cat-list .cat-tab.active{background:transparent;border-left-color:transparent}
+}
+@media (max-width:800px){
+  .catalog .cat-ind{background:var(--champ);border-radius:999px;box-shadow:0 4px 14px rgba(200,178,138,.3)}
+  .catalog.promo-mode .cat-list .cat-tab.active{background:transparent;border-color:transparent}
+  .cat-list,.sp-list{scroll-behavior:smooth}
+}
+.cat-reveal{animation:catFade .35s ease backwards;animation-delay:calc(var(--i,0) * 60ms)}
+@media (prefers-reduced-motion:reduce){.card.card-in,.cat-anim,.cat-reveal{animation:none}.cat-ind.ready{transition:none}.cat-list,.sp-list{scroll-behavior:auto}}
 .modal-close{position:absolute;top:.8rem;right:.8rem;z-index:3;background:rgba(255,255,255,.92);border:0;width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer;color:var(--deep)}
 .modal-m{height:100%;min-height:560px}
 .modal-body{padding:2.6rem 2.4rem;display:flex;flex-direction:column;gap:.7rem}
