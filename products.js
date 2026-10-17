@@ -459,6 +459,30 @@ const PRODUCTS = [
     deskripsi: "Bucket ulang tahun dengan topper princess bergaun dari lipatan uang kertas, aneka permen/cokelat stik, bunga kecil, dan kartu \"Happy Birthday\" dalam wrapping pink.",
     isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Topper princess", "Aneka permen & cokelat stik", "Bunga artifisial", "Kartu \"Happy Birthday\"", "Wrapping pink + pita"],
     foto: "assets/products/49.jpg"
+  },
+  {
+    id: "50",
+    nama: "Bucket Uang Pink Ungu Kupu-Kupu",
+    kategori: "Bucket Uang",
+    harga: "",
+    estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Bucket uang bulat besar dengan lipatan uang kertas membentuk bunga di tengah, topper kupu-kupu emas, taburan pink glitter, dan wrapping ungu muda berlapis dengan pita pink.",
+    isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Topper kupu-kupu emas", "Taburan glitter pink", "Wrapping ungu muda + pita pink"],
+    foto: "assets/products/50.jpg",
+    fotoLain: ["assets/products/50-2.jpg"]
+  },
+  {
+    id: "51",
+    nama: "Bucket Snack Ferrero Rocher Biru",
+    kategori: "Bucket Snack",
+    harga: "",
+    estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Bucket cokelat Ferrero Rocher berbalut pita biru muda, bunga kering pelengkap, taburan biru bermotif putih, dan wrapping abu-biru dengan pita emas.",
+    isi: ["Cokelat Ferrero Rocher", "Bunga kering pelengkap", "Taburan biru", "Wrapping abu-biru + pita emas"],
+    foto: "assets/products/51.jpg",
+    fotoLain: ["assets/products/51-2.jpg"]
   }
 ];
 
@@ -740,4 +764,4 @@ const VIDEO_REVIEW = [
 // =============================================================
 //  TESTIMONI — screenshot chat pelanggan di assets/testimoni/
 // =============================================================
-const TESTIMONI = Array.from({ length: 13 }, (_, i) => ({ foto: "assets/testimoni/testimoni-" + String(i + 1).padStart(2, "0") + ".webp" }));
+const TESTIMONI = Array.from({ length: 14 }, (_, i) => ({ foto: "assets/testimoni/testimoni-" + String(i + 1).padStart(2, "0") + ".webp" }));
