@@ -12,7 +12,7 @@
 <link rel="canonical" href="https://17hrprimary.github.io/hawa-bouquet/p/39.html">
 <meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=20261004202448">
+<link rel="stylesheet" href="../style.css?v=20261017095333">
 <style>
 .pp{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr;background:var(--mist)}
 .pp .media{min-height:100vh}
@@ -21,21 +21,26 @@
 .pp-body .price{font-size:2rem}
 .pp-back{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--plum);margin-bottom:1rem}
 .pp-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
-body::before{background-image:url("../assets/bg/hawa-cutout.webp?v=20261004202448")}
+body::before{background-image:url("../assets/bg/hawa-cutout.webp?v=20261017095333")}
 .pp-track{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .pp-track::-webkit-scrollbar{display:none}
 .pp-track img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:center;scroll-snap-stop:always}
 .pp-hint{position:absolute;left:50%;bottom:.9rem;transform:translateX(-50%);z-index:2;background:rgba(36,17,48,.5);color:#fff;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:.35rem .8rem;white-space:nowrap}
 @media(max-width:800px){.pp{grid-template-columns:1fr}.pp .media{min-height:0;aspect-ratio:4/5}.pp-body{padding:2rem 1.5rem}}
+.pp-kembali{position:fixed;top:max(12px,env(safe-area-inset-top));left:12px;z-index:60;display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.1rem .6rem .85rem;background:rgba(36,17,48,.84);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--lav-soft);border:1px solid rgba(200,178,138,.65);border-radius:999px;font-family:Jost,system-ui,sans-serif;font-size:.76rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;box-shadow:0 8px 22px rgba(20,0,30,.32);transition:.25s}
+.pp-kembali span{font-size:1.35rem;line-height:1;margin-top:-3px;color:var(--champ)}
+.pp-kembali:hover{background:var(--plum)}
+.pp .g-count{left:auto;right:.9rem}
 </style>
 </head><body>
+<a class="pp-kembali" id="ppKembali" href="../index.html?cat=Bucket%20Uang#koleksi" aria-label="Kembali ke katalog"><span aria-hidden="true">‹</span> Kembali</a>
 <main class="pp">
   <div class="media pp-g"><div class="pp-track" id="ppTrack"><img src="../assets/products/39.jpg" alt="Bucket Uang Mawar Pink Lilac — foto 1"><img src="../assets/products/39-2.jpg" alt="Bucket Uang Mawar Pink Lilac — foto 2" loading="lazy"></div>
     <span class="g-count" id="ppCount">1 / 2</span><button class="g-arrow g-prev" type="button" aria-label="Foto sebelumnya" data-d="-1">‹</button><button class="g-arrow g-next" type="button" aria-label="Foto berikutnya" data-d="1">›</button>
     <span class="pp-hint">‹ Geser untuk lihat sudut lain ›</span></div>
   <script>(function(){var t=document.getElementById("ppTrack"),c=document.getElementById("ppCount"),n=2,i=0,b=document.querySelectorAll(".pp-g .g-arrow");function m(){i=Math.round(t.scrollLeft/t.clientWidth);c.textContent=(i+1)+" / "+n;b[0].disabled=i===0;b[1].disabled=i===n-1;}t.addEventListener("scroll",function(){requestAnimationFrame(m)},{passive:true});b.forEach(function(x){x.onclick=function(){t.scrollTo({left:(i+(+x.dataset.d))*t.clientWidth,behavior:"smooth"})}});m();})();</script>
   <div class="pp-body">
-    <a class="pp-back" href="../index.html#koleksi">← Hawa Bouquet · Semua koleksi</a>
+    <a class="pp-back" href="../index.html?cat=Bucket%20Uang#koleksi">← Hawa Bouquet · Semua koleksi</a>
     <span class="tag">Bucket Uang · No. 39</span>
     <h1>Bucket Uang Mawar Pink Lilac</h1>
     <p class="price ask">Harga dibicarakan dengan admin</p>
@@ -53,4 +58,9 @@ body::before{background-image:url("../assets/bg/hawa-cutout.webp?v=2026100420244
   </div>
 </main>
 <a class="wa-float" href="https://wa.me/6283831131080?text=Halo%20Hawa%20Bouquet%2C%20saya%20mau%20tanya%2Fpesan." target="_blank" rel="noopener" aria-label="WhatsApp 0838-3113-1080"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></a>
+<script>(function(){var b=document.getElementById("ppKembali"),home=b.getAttribute("href"),base=location.pathname.replace(/p\/[^\/]*$/,""),same=false;try{var r=new URL(document.referrer);same=r.origin===location.origin&&r.pathname.indexOf(base)===0&&r.href!==location.href}catch(e){}
+if(!same&&!(history.state&&history.state.hbp)){var me=location.href;try{history.replaceState({hbHome:1},"",home);history.pushState({hbp:1},"",me)}catch(e){}}
+var trap=!!(history.state&&history.state.hbp);
+b.addEventListener("click",function(e){if((same||trap)&&history.length>1){e.preventDefault();history.back()}});
+addEventListener("popstate",function(){if(!/\/p\/[^\/]*$/.test(location.pathname))location.reload()});})();</script>
 </body></html>

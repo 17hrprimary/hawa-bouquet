@@ -463,7 +463,18 @@
     if (/^(produk|ramadan|nataru)-\d+$/.test(h)) slug = h;
     else if (q) slug = /^(ramadan|nataru)-\d+$/i.test(q) ? q.toLowerCase() : /^r\d+$/i.test(q) ? "ramadan-" + q.slice(1).padStart(2, "0") : /^n\d+$/i.test(q) ? "nataru-" + q.slice(1).padStart(2, "0") : "produk-" + String(q).padStart(2, "0");
     const listHash = { koleksi: "main", "paket-ramadan": "promo", "paket-nataru": "nataru", "paket-sembako": "sembako", "promo-ramadan": "promo", "promo-nataru": "nataru", "video-review": "video", testimoni: "testi" };
-    if (listHash[h]) { hideModal(); lbHide(); selectTab(listHash[h]); return; }
+    if (listHash[h]) {
+      // [KEMBALI DARI HALAMAN PRODUK] ?cat=<kategori> membuka sub-menu kategori itu (mis. index.html?cat=Bucket%20Uang#koleksi), lalu ?cat dihapus dari URL
+      const sp = new URLSearchParams(location.search), cat = sp.get("cat");
+      let key = listHash[h];
+      if (cat !== null) {
+        if (TABS.some(t => t.key === key + ":" + cat)) key += ":" + cat;
+        sp.delete("cat");
+        const qs = sp.toString();
+        history.replaceState(history.state, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+      }
+      hideModal(); lbHide(); selectTab(key); return;
+    }
     if (slug) {
       const p = ALL.find(x => x._slug === slug);
       if (p && (!activeTab || activeTab.list !== listKeyOf(p) || (activeTab.cat && activeTab.cat !== p.kategori))) selectTab(listKeyOf(p));
