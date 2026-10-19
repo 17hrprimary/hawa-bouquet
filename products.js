@@ -483,6 +483,17 @@ const PRODUCTS = [
     isi: ["Cokelat Ferrero Rocher", "Bunga kering pelengkap", "Taburan biru", "Wrapping abu-biru + pita emas"],
     foto: "assets/products/51.jpg",
     fotoLain: ["assets/products/51-2.jpg"]
+  },
+  {
+    id: "52",
+    nama: "Bucket Snack Silverqueen Beng-Beng",
+    kategori: "Bucket Snack",
+    harga: "",
+    estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Bucket snack cokelat Silverqueen dan Beng-Beng tersusun mekar, taburan glitter pink, dan wrapping putih bertepi ungu bergelombang dengan pita satin magenta.",
+    isi: ["Cokelat Silverqueen", "Cokelat Beng-Beng", "Taburan glitter pink", "Wrapping putih tepi ungu + pita satin magenta"],
+    foto: "assets/products/52.jpg"
   }
 ];
 
