@@ -494,6 +494,28 @@ const PRODUCTS = [
     deskripsi: "Bucket snack cokelat Silverqueen dan Beng-Beng tersusun mekar, taburan glitter pink, dan wrapping putih bertepi ungu bergelombang dengan pita satin magenta.",
     isi: ["Cokelat Silverqueen", "Cokelat Beng-Beng", "Taburan glitter pink", "Wrapping putih tepi ungu + pita satin magenta"],
     foto: "assets/products/52.jpg"
+  },
+  {
+    id: "53",
+    nama: "Bucket Uang Ungu Lilac Kupu-Kupu",
+    kategori: "Bucket Uang",
+    harga: "",
+    estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Bucket uang dengan lipatan uang kertas membentuk kupu-kupu bertangkai, taburan glitter ungu, dan wrapping ungu lilac bergelombang dengan pita satin ungu.",
+    isi: ["Uang kertas (jumlah & nominal dibahas dengan admin)", "Topper kupu-kupu dari lipatan uang", "Taburan glitter ungu", "Wrapping ungu lilac + pita satin ungu"],
+    foto: "assets/products/53.jpg"
+  },
+  {
+    id: "54",
+    nama: "Bucket Snack Hitam Gold Oreo",
+    kategori: "Bucket Snack",
+    harga: "",
+    estimasi: "tergantung tingkat kesulitan, detail dibahas dengan admin",
+    ukuran: "Ukuran: xx cm",
+    deskripsi: "Bucket snack aneka biskuit dan cokelat batang (Oreo, Beng-Beng, Nabati, Kelpa, Ardent) tersusun menjulang, kartu \"Happy Graduation\", taburan gypsophila hitam, dan wrapping hitam bergaris gold dengan pita emas.",
+    isi: ["Biskuit Oreo", "Wafer Nabati", "Aneka snack & cokelat batang", "Kartu \"Happy Graduation\"", "Taburan gypsophila hitam", "Wrapping hitam garis gold + pita emas"],
+    foto: "assets/products/54.jpg"
   }
 ];
 
